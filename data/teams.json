@@ -1,13 +1,13 @@
 [
   {
-    "team_id": "929",
-    "league_id": "saudi-pro-league",
-    "name_ar": "الهلال"
-  },
-  {
     "team_id": "22022",
     "league_id": "saudi-pro-league",
     "name_ar": "القادسية"
+  },
+  {
+    "team_id": "929",
+    "league_id": "saudi-pro-league",
+    "name_ar": "الهلال"
   },
   {
     "team_id": "817",
@@ -35,14 +35,19 @@
     "name_ar": "الاتفاق"
   },
   {
+    "team_id": "131746",
+    "league_id": "saudi-pro-league",
+    "name_ar": "الدرعية"
+  },
+  {
     "team_id": "22028",
     "league_id": "saudi-pro-league",
     "name_ar": "الخلود"
   },
   {
-    "team_id": "131746",
+    "team_id": "21829",
     "league_id": "saudi-pro-league",
-    "name_ar": "الدرعية"
+    "name_ar": "الخليج"
   },
   {
     "team_id": "21964",
@@ -63,11 +68,6 @@
     "team_id": "21827",
     "league_id": "saudi-pro-league",
     "name_ar": "الفيحاء"
-  },
-  {
-    "team_id": "21829",
-    "league_id": "saudi-pro-league",
-    "name_ar": "الخليج"
   },
   {
     "team_id": "21446",
