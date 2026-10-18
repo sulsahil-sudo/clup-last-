@@ -5,7 +5,7 @@ on:
     - cron: "*/5 * * * *"
   workflow_dispatch:
 
-jobs:
+jobs:.github/workflows/update.yml.
   update:
     runs-on: ubuntu-latest
 
