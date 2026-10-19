@@ -8,6 +8,7 @@
   <style>
     body { font-family: system-ui, -apple-system, sans-serif; background-color: #f8fafc; }
     .active-tab { background-color: #1e3a8a !important; color: white !important; }
+    .filter-btn-active { background-color: #1e3a8a !important; color: white !important; }
   </style>
 </head>
 <body class="p-4 md:p-8">
@@ -21,16 +22,16 @@
 
   <!-- شريط التنقل العلوي -->
   <div class="max-w-6xl mx-auto bg-white p-3 rounded-xl shadow mb-6 flex flex-wrap gap-2 justify-end border">
-    <button onclick="switchTab('standings-tab', this)" class="tab-btn active-tab px-5 py-2 rounded-lg font-bold text-gray-700 transition">الترتيب</button>
+    <button onclick="switchTab('standings-tab', this)" class="tab-btn px-5 py-2 rounded-lg font-bold text-gray-700 transition">الترتيب</button>
     <button onclick="switchTab('players-tab', this)" class="tab-btn px-5 py-2 rounded-lg font-bold text-gray-700 transition">اللاعبون</button>
-    <button onclick="switchTab('matches-tab', this)" class="tab-btn px-5 py-2 rounded-lg font-bold text-gray-700 transition">المباريات</button>
+    <button onclick="switchTab('matches-tab', this)" class="tab-btn active-tab px-5 py-2 rounded-lg font-bold text-gray-700 transition">المباريات</button>
     <button onclick="switchTab('scorers-tab', this)" class="tab-btn px-5 py-2 rounded-lg font-bold text-gray-700 transition">⚽ الهدافين</button>
   </div>
 
   <div class="max-w-6xl mx-auto">
 
     <!-- 1. تبويب الترتيب -->
-    <div id="standings-tab" class="tab-content">
+    <div id="standings-tab" class="tab-content hidden">
       <div class="bg-white rounded-xl shadow overflow-hidden">
         <div class="bg-blue-900 text-white p-4 font-bold text-lg text-center">جدول ترتيب دوري روشن السعودي</div>
         <div class="overflow-x-auto">
@@ -55,9 +56,26 @@
       </div>
     </div>
 
-    <!-- 2. تبويب المباريات -->
-    <div id="matches-tab" class="tab-content hidden">
-      <div id="matches-list" class="grid gap-4"></div>
+    <!-- 2. تبويب المباريات بالتصميم المطلوب تماماً -->
+    <div id="matches-tab" class="tab-content">
+      <!-- أزرار الفلترة العلوية -->
+      <div class="flex flex-wrap gap-2 mb-6 justify-end items-center">
+        <button onclick="filterMatches('all', this)" id="btn-filter-all" class="filter-btn bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-full font-bold text-sm shadow-sm flex items-center gap-1.5 hover:bg-gray-50">
+          📋 الكل <span id="count-all" class="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full font-semibold">0</span>
+        </button>
+        <button onclick="filterMatches('yesterday', this)" class="filter-btn bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-full font-bold text-sm shadow-sm flex items-center gap-1.5 hover:bg-gray-50">
+          ⬅️ أمس <span id="count-yesterday" class="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full font-semibold">0</span>
+        </button>
+        <button onclick="filterMatches('today', this)" class="filter-btn filter-btn-active bg-blue-900 text-white px-4 py-2 rounded-full font-bold text-sm shadow-sm flex items-center gap-1.5">
+          📅 اليوم <span id="count-today" class="bg-blue-800 text-white text-xs px-2 py-0.5 rounded-full font-semibold">0</span>
+        </button>
+        <button onclick="filterMatches('tomorrow', this)" class="filter-btn bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-full font-bold text-sm shadow-sm flex items-center gap-1.5 hover:bg-gray-50">
+          ➡️ غداً <span id="count-tomorrow" class="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full font-semibold">0</span>
+        </button>
+      </div>
+
+      <!-- قائمة كروت المباريات -->
+      <div id="matches-list" class="space-y-4"></div>
     </div>
 
     <!-- 3. تبويب الهدافين والإحصائيات -->
@@ -111,8 +129,6 @@
   <!-- النافذة المنبثقة لتفاصيل الفريق (Modal) -->
   <div id="team-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
-      
-      <!-- الهيدر الأزرق مع زر الإغلاق -->
       <div class="bg-blue-800 text-white p-6 rounded-t-2xl relative text-center">
         <button onclick="closeTeamModal()" class="absolute top-4 right-4 bg-red-500 hover:bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-lg shadow">✕</button>
         <h2 id="modal-team-name" class="text-2xl font-bold mb-1">اسم النادي</h2>
@@ -120,31 +136,18 @@
       </div>
 
       <div class="p-6 space-y-6">
-        
-        <!-- إحصائيات الدوري -->
         <div>
           <h3 class="font-bold text-gray-800 mb-3 text-base flex items-center gap-1">📊 إحصائيات الدوري</h3>
-          <div id="modal-stats-grid" class="grid grid-cols-5 gap-2 text-center text-xs font-semibold">
-            <!-- تتولد ديناميكياً -->
-          </div>
+          <div id="modal-stats-grid" class="grid grid-cols-5 gap-2 text-center text-xs font-semibold"></div>
         </div>
-
-        <!-- قائمة اللاعبين -->
         <div>
           <h3 id="modal-players-count" class="font-bold text-gray-800 mb-3 text-base flex items-center gap-1">👥 اللاعبون</h3>
-          <div id="modal-players-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-            <!-- تتولد ديناميكياً -->
-          </div>
+          <div id="modal-players-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2"></div>
         </div>
-
-        <!-- قائمة المباريات -->
         <div>
           <h3 class="font-bold text-gray-800 mb-3 text-base flex items-center gap-1">⚽ المباريات</h3>
-          <div id="modal-matches-list" class="space-y-2">
-            <!-- تتولد ديناميكياً -->
-          </div>
+          <div id="modal-matches-list" class="space-y-2"></div>
         </div>
-
       </div>
     </div>
   </div>
@@ -153,6 +156,7 @@
     let globalStandings = [];
     let globalPlayers = [];
     let globalMatches = [];
+    let currentFilter = 'today';
 
     function switchTab(tabId, btn) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
@@ -161,17 +165,14 @@
       btn.classList.add('active-tab');
     }
 
-    // إغلاق النافذة المنبثقة
     function closeTeamModal() {
       document.getElementById('team-modal').classList.add('hidden');
     }
 
-    // فتح النافذة المنبثقة وتعبئة تفاصيل الفريق
     function openTeamModal(teamName) {
       const modal = document.getElementById('team-modal');
       document.getElementById('modal-team-name').innerText = teamName;
 
-      // 1. الإحصائيات
       const teamStats = globalStandings.find(s => s.t === teamName) || {};
       document.getElementById('modal-stats-grid').innerHTML = `
         <div class="bg-yellow-50 border border-yellow-200 p-2 rounded-lg">
@@ -196,10 +197,8 @@
         </div>
       `;
 
-      // 2. قائمة اللاعبين
       const teamPlayers = globalPlayers.filter(p => p.team === teamName);
       document.getElementById('modal-players-count').innerText = `👥 اللاعبون (${teamPlayers.length})`;
-      
       const posMap = { 'G': 'حارس', 'D': 'مدافع', 'M': 'وسط', 'F': 'مهاجم', 'GK': 'حارس', 'DF': 'مدافع', 'MF': 'وسط', 'FW': 'مهاجم' };
       
       document.getElementById('modal-players-grid').innerHTML = teamPlayers.map(p => `
@@ -210,7 +209,6 @@
         </div>
       `).join('') || '<p class="text-xs text-gray-400 col-span-3">لا يوجد لاعبون مسجلون</p>';
 
-      // 3. المباريات الخاصه بالفريق
       const teamMatches = globalMatches.filter(m => m.home === teamName || m.away === teamName);
       document.getElementById('modal-matches-list').innerHTML = teamMatches.map(m => {
         const matchDate = new Date(m.date);
@@ -232,74 +230,39 @@
       modal.classList.remove('hidden');
     }
 
-    // جلب الترتيب
-    fetch('data/standings.json')
-      .then(r => r.json())
-      .then(data => {
-        globalStandings = data;
-        document.getElementById('standings-list').innerHTML = data.map(s => `
-          <tr class="hover:bg-gray-50 transition cursor-pointer" onclick="openTeamModal('${s.t}')">
-            <td class="p-3 font-bold">${s.r}</td>
-            <td class="p-3 font-semibold text-blue-900 hover:underline">${s.t}</td>
-            <td class="p-3 text-center">${s.p}</td>
-            <td class="p-3 text-center">${s.w}</td>
-            <td class="p-3 text-center">${s.d}</td>
-            <td class="p-3 text-center">${s.l}</td>
-            <td class="p-3 text-center">${s.gf}</td>
-            <td class="p-3 text-center">${s.ga}</td>
-            <td class="p-3 text-center">${s.gd}</td>
-            <td class="p-3 text-center font-bold text-blue-900">${s.pts}</td>
-          </tr>
-        `).join('');
-      }).catch(e => console.error(e));
+    // دالة فحص وتحديث الأعداد وتصفية المباريات
+    function renderMatches() {
+      const now = new Date();
+      const todayStr = now.toISOString().split('T')[0];
+      
+      const yesterday = new Date(now); yesterday.setDate(yesterday.getDate() - 1);
+      const yesterdayStr = yesterday.toISOString().split('T')[0];
 
-    // جلب المباريات
-    fetch('data/matches.json')
-      .then(r => r.json())
-      .then(data => {
-        globalMatches = data;
-        document.getElementById('matches-list').innerHTML = data.map((m) => `
-          <div class="bg-white border rounded-xl p-4 shadow-sm flex justify-between items-center gap-2">
-            <span class="font-bold text-blue-900 cursor-pointer hover:underline" onclick="openTeamModal('${m.home}')">${m.home}</span>
-            <div class="bg-blue-900 text-white font-bold px-3 py-1 rounded text-sm">${m.completed ? `${m.hs} -${m.as}` : 'محددة'}</div>
-            <span class="font-bold text-blue-900 cursor-pointer hover:underline" onclick="openTeamModal('${m.away}')">${m.away}</span>
-          </div>
-        `).join('');
-      }).catch(e => console.error(e));
+      const tomorrow = new Date(now); tomorrow.setDate(tomorrow.getDate() + 1);
+      const tomorrowStr = tomorrow.toISOString().split('T')[0];
 
-    // جلب اللاعبين
-    fetch('data/players.json')
-      .then(r => r.json())
-      .then(players => {
-        globalPlayers = players;
+      let countAll = globalMatches.length;
+      let countToday = 0;
+      let countYesterday = 0;
+      let countTomorrow = 0;
 
-        const topScorers = players
-          .filter(p => (p.goals || 0) > 0 || (p.assists || 0) > 0)
-          .sort((a, b) => b.goals - a.goals || b.assists - a.assists)
-          .slice(0, 30);
+      const filtered = globalMatches.filter(m => {
+        const mDateStr = new Date(m.date).toISOString().split('T')[0];
+        if (mDateStr === todayStr) countToday++;
+        if (mDateStr === yesterdayStr) countYesterday++;
+        if (mDateStr === tomorrowStr) countTomorrow++;
 
-        document.getElementById('scorers-list').innerHTML = topScorers.map((p, index) => `
-          <tr class="hover:bg-gray-50 transition">
-            <td class="p-3 font-bold text-gray-500">${index + 1}</td>
-            <td class="p-3 font-semibold text-blue-900">${p.name}</td>
-            <td class="p-3 text-gray-600 cursor-pointer hover:underline" onclick="openTeamModal('${p.team}')">${p.team}</td>
-            <td class="p-3 text-center font-bold text-green-600 text-base">${p.goals || 0}</td>
-            <td class="p-3 text-center text-gray-700">${p.assists || 0}</td>
-            <td class="p-3 text-center text-yellow-600">${p.yellowCards || 0}</td>
-            <td class="p-3 text-center text-red-600">${p.redCards || 0}</td>
-          </tr>
-        `).join('');
+        if (currentFilter === 'today') return mDateStr === todayStr;
+        if (currentFilter === 'yesterday') return mDateStr === yesterdayStr;
+        if (currentFilter === 'tomorrow') return mDateStr === tomorrowStr;
+        return true;
+      });
 
-        document.getElementById('all-players-list').innerHTML = players.slice(0, 50).map(p => `
-          <tr class="hover:bg-gray-50">
-            <td class="p-3 font-semibold text-blue-900">${p.name}</td>
-            <td class="p-3 cursor-pointer hover:underline" onclick="openTeamModal('${p.team}')">${p.team}</td>
-            <td class="p-3 text-center">${p.position || '-'}</td>
-            <td class="p-3 text-center">${p.number || '-'}</td>
-            <td class="p-3 text-center">${p.nationality || '-'}</td>
-          </tr>
-        `).join('');
-      }).catch(e => console.error(e));
-  </script>
-</body>
-</html>
+      document.getElementById('count-all').innerText = countAll;
+      document.getElementById('count-today').innerText = countToday;
+      document.getElementById('count-yesterday').innerText = countYesterday;
+      document.getElementById('count-tomorrow').innerText = countTomorrow;
+
+      const container = document.getElementById('matches-list');
+      if (filtered.length === 0) {
+        container.
