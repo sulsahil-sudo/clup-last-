@@ -18,13 +18,13 @@
     "away_id": "21964",
     "home": "الهلال",
     "away": "الحزم",
-    "hs": "0",
+    "hs": "1",
     "as": "0",
     "date": "2026-10-19T18:00Z",
-    "status": "80'",
-    "state": "in",
-    "completed": false,
-    "clock": "80'",
+    "status": "FT",
+    "state": "post",
+    "completed": true,
+    "clock": "90'+9'",
     "period": 2
   },
   {
@@ -35,10 +35,10 @@
     "hs": "2",
     "as": "2",
     "date": "2026-10-19T18:00Z",
-    "status": "81'",
-    "state": "in",
-    "completed": false,
-    "clock": "81'",
+    "status": "FT",
+    "state": "post",
+    "completed": true,
+    "clock": "90'+9'",
     "period": 2
   },
   {
