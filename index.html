@@ -60,21 +60,21 @@
     <div id="matches-tab" class="tab-content">
       <!-- أزرار الفلترة العلوية -->
       <div class="flex flex-wrap gap-2 mb-6 justify-end items-center">
-        <button onclick="filterMatches('all', this)" id="btn-filter-all" class="filter-btn filter-btn-active bg-blue-900 text-white px-4 py-2 rounded-full font-bold text-sm shadow-sm flex items-center gap-1.5">
-          📋 الكل <span id="count-all" class="bg-blue-800 text-white text-xs px-2 py-0.5 rounded-full font-semibold">0</span>
-        </button>
-        <button onclick="filterMatches('yesterday', this)" class="filter-btn bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-full font-bold text-sm shadow-sm flex items-center gap-1.5 hover:bg-gray-50">
-          ⬅️ أمس <span id="count-yesterday" class="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full font-semibold">0</span>
-        </button>
-        <button onclick="filterMatches('today', this)" class="filter-btn bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-full font-bold text-sm shadow-sm flex items-center gap-1.5 hover:bg-gray-50">
-          📅 اليوم <span id="count-today" class="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full font-semibold">0</span>
+        <button onclick="filterMatches('all', this)" class="filter-btn bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-full font-bold text-sm shadow-sm flex items-center gap-1.5 hover:bg-gray-50">
+          📋 الكل <span id="count-all" class="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full font-semibold">0</span>
         </button>
         <button onclick="filterMatches('tomorrow', this)" class="filter-btn bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-full font-bold text-sm shadow-sm flex items-center gap-1.5 hover:bg-gray-50">
           ➡️ غداً <span id="count-tomorrow" class="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full font-semibold">0</span>
         </button>
+        <button onclick="filterMatches('today', this)" class="filter-btn filter-btn-active bg-blue-900 text-white px-4 py-2 rounded-full font-bold text-sm shadow-sm flex items-center gap-1.5">
+          📅 اليوم <span id="count-today" class="bg-blue-800 text-white text-xs px-2 py-0.5 rounded-full font-semibold">0</span>
+        </button>
+        <button onclick="filterMatches('yesterday', this)" class="filter-btn bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-full font-bold text-sm shadow-sm flex items-center gap-1.5 hover:bg-gray-50">
+          ⬅️ أمس <span id="count-yesterday" class="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full font-semibold">0</span>
+        </button>
       </div>
 
-      <!-- قائمة كروت المباريات -->
+      <!-- قائمة المباريات -->
       <div id="matches-list" class="space-y-4"></div>
     </div>
 
@@ -156,7 +156,7 @@
     let globalStandings = [];
     let globalPlayers = [];
     let globalMatches = [];
-    let currentFilter = 'all';
+    let currentFilter = 'today';
 
     function switchTab(tabId, btn) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
@@ -230,21 +230,26 @@
       modal.classList.remove('hidden');
     }
 
-    function getNormalizedDate(dateInput) {
+    // دالة تحويل التاريخ بدقة بتوقيت المحليات (السعودية)
+    function getLocalDateString(dateInput) {
       const d = new Date(dateInput);
       if (isNaN(d)) return '';
-      return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+      // استخراج التاريخ بالتقويم المحلي
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
     }
 
     function renderMatches() {
       const now = new Date();
-      const todayStr = getNormalizedDate(now);
+      const todayStr = getLocalDateString(now);
       
-      const yesterday = new Date(now); yesterday.setDate(yesterday.getDate() - 1);
-      const yesterdayStr = getNormalizedDate(yesterday);
+      const yesterday = new Date(now); yesterday.setDate(now.getDate() - 1);
+      const yesterdayStr = getLocalDateString(yesterday);
 
-      const tomorrow = new Date(now); tomorrow.setDate(tomorrow.getDate() + 1);
-      const tomorrowStr = getNormalizedDate(tomorrow);
+      const tomorrow = new Date(now); tomorrow.setDate(now.getDate() + 1);
+      const tomorrowStr = getLocalDateString(tomorrow);
 
       let countAll = globalMatches.length;
       let countToday = 0;
@@ -252,7 +257,7 @@
       let countTomorrow = 0;
 
       globalMatches.forEach(m => {
-        const mDateStr = getNormalizedDate(m.date);
+        const mDateStr = getLocalDateString(m.date);
         if (mDateStr === todayStr) countToday++;
         if (mDateStr === yesterdayStr) countYesterday++;
         if (mDateStr === tomorrowStr) countTomorrow++;
@@ -264,7 +269,7 @@
       document.getElementById('count-tomorrow').innerText = countTomorrow;
 
       const filtered = globalMatches.filter(m => {
-        const mDateStr = getNormalizedDate(m.date);
+        const mDateStr = getLocalDateString(m.date);
         if (currentFilter === 'today') return mDateStr === todayStr;
         if (currentFilter === 'yesterday') return mDateStr === yesterdayStr;
         if (currentFilter === 'tomorrow') return mDateStr === tomorrowStr;
@@ -279,7 +284,7 @@
 
       const currTime = new Date().getTime();
 
-      container.innerHTML = filtered.map((m, idx) => {
+      container.innerHTML = filtered.map((m) => {
         const matchDate = new Date(m.date);
         const matchTime = matchDate.getTime();
         const dateStr = !isNaN(matchDate) ? matchDate.toLocaleDateString('ar-SA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : '';
