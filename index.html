@@ -336,33 +336,26 @@
 
 <script src="names.js"></script>
 <script>
-// روابط شعارات الأندية الموحدة والثابتة لمنع أي ترميش
 var teamLogos = {
-  "الهلال": "https://a.espncdn.com/i/teamlogos/soccer/500/18063.png",
-  "الاتحاد": "https://a.espncdn.com/i/teamlogos/soccer/500/18064.png",
-  "النصر": "https://a.espncdn.com/i/teamlogos/soccer/500/18065.png",
-  "الأهلي": "https://a.espncdn.com/i/teamlogos/soccer/500/18062.png",
-  "الشباب": "https://a.espncdn.com/i/teamlogos/soccer/500/18068.png",
-  "الاتفاق": "https://a.espncdn.com/i/teamlogos/soccer/500/18066.png",
-  "التعاون": "https://a.espncdn.com/i/teamlogos/soccer/500/18067.png",
-  "الفيحاء": "https://a.espncdn.com/i/teamlogos/soccer/500/18903.png",
-  "الفتح": "https://a.espncdn.com/i/teamlogos/soccer/500/18069.png",
-  "القادسية": "https://a.espncdn.com/i/teamlogos/soccer/500/18070.png",
-  "الخليج": "https://a.espncdn.com/i/teamlogos/soccer/500/18902.png",
-  "الرياض": "https://a.espncdn.com/i/teamlogos/soccer/500/18904.png",
-  "الخلود": "https://a.espncdn.com/i/teamlogos/soccer/500/21307.png",
-  "ضمك": "https://a.espncdn.com/i/teamlogos/soccer/500/19448.png",
-  "الضمك": "https://a.espncdn.com/i/teamlogos/soccer/500/19448.png",
-  "الأخدود": "https://a.espncdn.com/i/teamlogos/soccer/500/21308.png",
-  "الوحدة": "https://a.espncdn.com/i/teamlogos/soccer/500/18071.png",
-  "أبها": "https://a.espncdn.com/i/teamlogos/soccer/500/19447.png",
-  "الحزم": "https://a.espncdn.com/i/teamlogos/soccer/500/18901.png",
-  "الفيصلي": "https://a.espncdn.com/i/teamlogos/soccer/500/18072.png",
-  "الدرعية": "https://a.espncdn.com/i/teamlogos/soccer/500/21309.png",
-  "نيوم": "https://a.espncdn.com/i/teamlogos/soccer/500/21310.png"
+  "الهلال": "https://a.espncdn.com/i/teamlogos/soccer/500/929.png",
+  "الاتحاد": "https://a.espncdn.com/i/teamlogos/soccer/500/2276.png",
+  "النصر": "https://a.espncdn.com/i/teamlogos/soccer/500/817.png",
+  "القادسية": "https://a.espncdn.com/i/teamlogos/soccer/500/22022.png",
+  "نيوم": "https://a.espncdn.com/i/teamlogos/soccer/500/130899.png",
+  "الأهلي": "https://a.espncdn.com/i/teamlogos/soccer/500/8346.png",
+  "الخلود": "https://a.espncdn.com/i/teamlogos/soccer/500/22028.png",
+  "الدرعية": "https://a.espncdn.com/i/teamlogos/soccer/500/131746.png",
+  "الاتفاق": "https://a.espncdn.com/i/teamlogos/soccer/500/8363.png",
+  "الحزم": "https://a.espncdn.com/i/teamlogos/soccer/500/21964.png",
+  "الرياض": "https://a.espncdn.com/i/teamlogos/soccer/500/21965.png",
+  "الفيحاء": "https://a.espncdn.com/i/teamlogos/soccer/500/21827.png",
+  "الخليج": "https://a.espncdn.com/i/teamlogos/soccer/500/21829.png",
+  "الشباب": "https://a.espncdn.com/i/teamlogos/soccer/500/793.png",
+  "الفتح": "https://a.espncdn.com/i/teamlogos/soccer/500/13033.png",
+  "الفيصلي": "https://a.espncdn.com/i/teamlogos/soccer/500/21446.png",
+  "التعاون": "https://a.espncdn.com/i/teamlogos/soccer/500/18459.png",
+  "أبها": "https://a.espncdn.com/i/teamlogos/soccer/500/21833.png"
 };
-
-var defaultLogo = "https://a.espncdn.com/i/teamlogos/soccer/500/default-club.png";
 
 var countryMap = {
   "Saudi Arabia":"السعودية","Portugal":"البرتغال","Brazil":"البرازيل","France":"فرنسا",
@@ -372,7 +365,25 @@ var countryMap = {
   "Jordan":"الأردن","Kuwait":"الكويت","UAE":"الإمارات","United Arab Emirates":"الإمارات",
   "Qatar":"قطر","Bahrain":"البحرين","Oman":"عُمان","Yemen":"اليمن","Syria":"سوريا",
   "Lebanon":"لبنان","Palestine":"فلسطين","Libya":"ليبيا","Sudan":"السودان",
-  "Nigeria":"نيجيريا","Ghana":"غانا","Ivory Coast":"ساحل العاج","Cameroon":"الكاميرون"
+  "Nigeria":"نيجيريا","Ghana":"غانا","Ivory Coast":"ساحل العاج","Cameroon":"الكاميرون",
+  "Mali":"مالي","Guinea":"غينيا","Serbia":"صربيا","Croatia":"كرواتيا",
+  "Poland":"بولندا","Russia":"روسيا","Ukraine":"أوكرانيا","Turkey":"تركيا","Greece":"اليونان",
+  "Romania":"رومانيا","Colombia":"كولومبيا","Uruguay":"أوروغواي","Chile":"تشيلي","Peru":"بيرو",
+  "Mexico":"المكسيك","USA":"الولايات المتحدة","United States":"الولايات المتحدة",
+  "Japan":"اليابان","South Korea":"كوريا الجنوبية","China":"الصين","Australia":"أستراليا",
+  "Iran":"إيران","Uzbekistan":"أوزبكستان","Denmark":"الدنمارك","Sweden":"السويد",
+  "Norway":"النرويج","Switzerland":"سويسرا","Austria":"النمسا","Scotland":"اسكتلندا",
+  "Wales":"ويلز","Ireland":"أيرلندا","Jamaica":"جامايكا","Costa Rica":"كوستاريكا",
+  "Venezuela":"فنزويلا","Ecuador":"الإكوادور","Paraguay":"باراغواي","Bolivia":"بوليفيا",
+  "Slovakia":"سلوفاكيا","Slovenia":"سلوفينيا","Bulgaria":"بلغاريا","Hungary":"هنغاريا",
+  "Czech Republic":"التشيك","Finland":"فنلندا","Iceland":"آيسلندا","Albania":"ألبانيا",
+  "Kosovo":"كوسوفو","Bosnia and Herzegovina":"البوسنة والهرسك","North Macedonia":"مقدونيا",
+  "Georgia":"جورجيا","Armenia":"أرمينيا","Azerbaijan":"أذربيجان","Kazakhstan":"كازاخستان",
+  "Burkina Faso":"بوركينا فاسو","South Africa":"جنوب أفريقيا","Kenya":"كينيا",
+  "Gabon":"الغابون","Congo":"الكونغو","DR Congo":"الكونغو الديمقراطية",
+  "Angola":"أنغولا","Comoros":"جزر القمر","Madagascar":"مدغشقر",
+  "Mauritania":"موريتانيا","Somalia":"الصومال","Djibouti":"جيبوتي",
+  "Curaçao":"كوراساو","Curacao":"كوراساو","French Guiana":"غيانا الفرنسية"
 };
 
 function translateName(name) {
@@ -389,19 +400,22 @@ function translateCountry(c) {
 }
 
 function teamLogoHTML(teamName) {
-  var logo = teamLogos[teamName] || defaultLogo;
-  return '<img src="' + logo + '" alt="' + teamName + '" class="team-logo">';
+  var logo = teamLogos[teamName];
+  if (logo) {
+    return '<img src="' + logo + '" alt="' + teamName + '" class="team-logo" onerror="this.style.display=\'none\'">';
+  }
+  return '';
 }
 
 function teamLinkHTML(teamName, withLogo) {
   var logoHtml = withLogo ? teamLogoHTML(teamName) : '';
-  return '<button class="team-link" onclick="openTeamModal(\'' + teamName.replace(/'/g, "\\'") + '\')"><span>' + teamName + '</span>' + logoHtml + '</button>';
+  return '<button class="team-link" onclick="openTeamModal(\'' + teamName.replace(/'/g, "\\'") + '\')">' + teamName + logoHtml + '</button>';
 }
 
 function teamMatchLinkHTML(teamName) {
-  var logo = teamLogos[teamName] || defaultLogo;
+  var logo = teamLogos[teamName] || '';
   return '<button class="match-team-block" onclick="openTeamModal(\'' + teamName.replace(/'/g, "\\'") + '\')">' +
-    '<img src="' + logo + '" class="match-team-logo">' +
+    '<img src="' + logo + '" class="match-team-logo" onerror="this.style.display=\'none\'">' +
     '<div class="match-team">' + teamName + '</div></button>';
 }
 
@@ -412,11 +426,11 @@ function openTeamModal(teamName) {
     .sort(function(a, b) { return new Date(b.date) - new Date(a.date); })
     .slice(0, 8);
 
-  var logo = teamLogos[teamName] || defaultLogo;
+  var logo = teamLogos[teamName] || '';
   var html = '';
 
   html += '<div class="modal-header">';
-  html += '<img src="' + logo + '" class="team-logo-big">';
+  html += '<img src="' + logo + '" class="team-logo-big" onerror="this.style.display=\'none\'">';
   html += '<h2>' + teamName + '</h2>';
   html += '<div class="subtitle">نادي كرة قدم سعودي</div>';
   html += '</div>';
@@ -492,6 +506,10 @@ function closeModal(event) {
   document.body.style.overflow = '';
 }
 
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+});
+
 function showTab(id, btn) {
   document.querySelectorAll('.content').forEach(function(el) { el.classList.add('hidden'); });
   document.querySelectorAll('.tab').forEach(function(el) { el.classList.remove('active', 'active-live'); });
@@ -546,7 +564,6 @@ function getMatchState(m) {
   return 'finished';
 }
 
-// دالة لاستخراج تاريخ اليوم بتوقيت السعودية بدقة لمنع تفاوت الأعداد
 function getKSADateKey(dInput) {
   var d = new Date(dInput);
   if (isNaN(d.getTime())) return '';
@@ -830,4 +847,70 @@ function loadData(showLoader) {
         html += '<td data-label="له">' + t.gf + '</td>';
         html += '<td data-label="عليه">' + t.ga + '</td>';
         html += '<td data-label="الفرق">' + t.gd + '</td>';
-        html += '<td data-label="النقاط"><b>' +
+        html += '<td data-label="النقاط"><b>' + t.pts + '</b></td></tr>';
+      });
+      document.getElementById('standingsBody').innerHTML = html;
+      document.getElementById('updatedStandings').textContent = 'آخر تحديث: ' + data.lastUpdated;
+      originalStandings = data.standings || [];
+
+      allPlayers = (data.players || []).slice().sort(function(a, b) {
+        if (a.team !== b.team) return a.team.localeCompare(b.team, 'ar');
+        return parseInt(a.number || 999) - parseInt(b.number || 999);
+      });
+      if (allPlayers.length === 0) {
+        document.getElementById('playersBody').innerHTML = '<tr><td colspan="6" class="empty">لم يتم جلب اللاعبين بعد.</td></tr>';
+      } else {
+        var teams = {};
+        allPlayers.forEach(function(p) { if (p.team) teams[p.team] = true; });
+        var teamSelect = document.getElementById('teamFilter');
+        teamSelect.innerHTML = '<option value="">كل الفرق</option>';
+        Object.keys(teams).sort(function(a,b){return a.localeCompare(b,'ar');}).forEach(function(t) {
+          var opt = document.createElement('option');
+          opt.value = t; opt.textContent = t;
+          teamSelect.appendChild(opt);
+        });
+        renderPlayers(allPlayers);
+      }
+
+      allMatches = data.results || [];
+      buildFilters();
+      renderMatches();
+      renderLiveStandings();
+
+      var hasLive = getFilteredMatches('live').length > 0;
+      var liveTab = document.getElementById('tabLive');
+      if (hasLive) {
+        liveTab.style.display = 'block';
+      } else {
+        liveTab.style.display = 'none';
+        if (!document.getElementById('live').classList.contains('hidden')) {
+          showTab('standings', document.getElementById('tabStandings'));
+        }
+      }
+
+      secondsSinceRefresh = 0;
+    })
+    .catch(function(e) {
+      document.getElementById('standingsBody').innerHTML = '<tr><td colspan="10" class="loading">تعذر التحميل</td></tr>';
+    });
+}
+
+loadData(true);
+setInterval(function() {
+  secondsSinceRefresh++;
+  if (secondsSinceRefresh >= REFRESH_INTERVAL) loadData(false);
+}, 1000);
+setInterval(updateAllCountdowns, 1000);
+setInterval(function() {
+  if (!document.getElementById('live').classList.contains('hidden')) renderLiveStandings();
+}, 5000);
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("./service-worker.js");
+  });
+}
+</script>
+</body>
+</html>
