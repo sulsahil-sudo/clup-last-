@@ -15,6 +15,11 @@
     "name_ar": "النصر"
   },
   {
+    "team_id": "8346",
+    "league_id": "saudi-pro-league",
+    "name_ar": "الأهلي"
+  },
+  {
     "team_id": "2276",
     "league_id": "saudi-pro-league",
     "name_ar": "الاتحاد"
@@ -23,11 +28,6 @@
     "team_id": "130899",
     "league_id": "saudi-pro-league",
     "name_ar": "نيوم"
-  },
-  {
-    "team_id": "8346",
-    "league_id": "saudi-pro-league",
-    "name_ar": "الأهلي"
   },
   {
     "team_id": "8363",
