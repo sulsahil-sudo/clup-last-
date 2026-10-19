@@ -60,7 +60,7 @@
   .filter-btn.active { background: #1a5490; color: white; border-color: #1a5490; }
   .filter-btn .count { display: inline-block; background: rgba(0,0,0,0.08); padding: 1px 8px; border-radius: 10px; font-size: 11px; }
   .filter-btn.active .count { background: rgba(255,255,255,0.25); color: white; }
-  
+
   .match-card { border: 1px solid #eee; border-radius: 10px; padding: 12px; margin-bottom: 10px; }
   .match-card.live { border-color: #c0392b; border-width: 2px; }
   .match-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 12px; color: #666; gap: 8px; flex-wrap: wrap; }
@@ -92,10 +92,18 @@
   .rank-badge.gold { background: #ffd700; color: #333; }
   .rank-badge.silver { background: #c0c0c0; color: #333; }
   .rank-badge.bronze { background: #cd7f32; color: white; }
+  .change-up { color: #27ae60; font-weight: bold; }
+  .change-down { color: #c0392b; font-weight: bold; }
   .live-banner { background: linear-gradient(135deg, #c0392b, #e74c3c); color: white; padding: 12px; border-radius: 10px; margin-bottom: 12px; text-align: center; font-weight: bold; font-size: 14px; }
   .live-banner .live-dot { display: inline-block; width: 8px; height: 8px; background: white; border-radius: 50%; margin-right: 8px; animation: pulse 1s infinite; }
   @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
   .live-info { text-align: center; font-size: 12px; color: #666; margin-bottom: 12px; padding: 10px; background: #fef9e7; border-radius: 6px; line-height: 1.6; }
+
+  .player-name-cell {
+    color: #1a5490;
+    font-weight: bold;
+    font-size: 13px;
+  }
 
   .modal-overlay {
     position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6);
@@ -179,6 +187,88 @@
   .match-mini .score { background: #1a5490; color: white; padding: 3px 8px; border-radius: 5px; font-weight: bold; min-width: 40px; text-align: center; }
   .match-mini .score.live { background: #c0392b; }
   .match-mini .score.upcoming { background: #e8f4fd; color: #1a5490; font-size: 10px; }
+
+  @media (max-width: 600px) {
+    body { padding: 0 8px 8px; }
+    .sticky-header { padding: 10px 8px 8px; margin: 0 -8px; }
+    h1 { font-size: 17px; margin-bottom: 10px; }
+    .content { padding: 8px; margin-top: 10px; }
+    .tab { padding: 8px 12px; font-size: 13px; }
+
+    #standings .table-wrap { overflow-x: auto; }
+    #standings table { min-width: 100%; font-size: 11px; }
+    #standings th, #standings td { padding: 6px 3px; font-size: 11px; }
+    #standings th:nth-child(3), #standings td:nth-child(3),
+    #standings th:nth-child(7), #standings td:nth-child(7),
+    #standings th:nth-child(8), #standings td:nth-child(8) { display: none; }
+    #standings .team { font-size: 12px; }
+    #standings .rank-badge { width: 20px; height: 20px; font-size: 11px; }
+    #standings .team-logo { width: 22px; height: 22px; }
+    .team-link { gap: 4px; padding: 2px 4px; font-size: 12px; }
+    .team-link::after { font-size: 10px; }
+
+    #players table { min-width: 100%; }
+    #players thead { display: none; }
+    #players tbody tr {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: white;
+      border-bottom: 1px solid #f0f0f0;
+      padding: 8px 4px;
+      font-size: 12px;
+      gap: 6px;
+    }
+    #players tbody tr:last-child { border-bottom: none; }
+    #players tbody td {
+      display: inline-block;
+      padding: 0;
+      border: none;
+      text-align: right;
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    #players tbody td::before { content: none; }
+    #players tbody td:nth-child(1) { flex-shrink: 0; width: auto; }
+    #players tbody td:nth-child(2) {
+      flex: 1;
+      text-align: right;
+      font-weight: bold;
+      color: #1a5490;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    #players tbody td:nth-child(3) {
+      flex-shrink: 0;
+      font-size: 11px;
+      color: #666;
+      padding-right: 6px;
+    }
+    #players tbody td:nth-child(4) { flex-shrink: 0; }
+    #players tbody td:nth-child(5) { display: none; }
+    #players tbody td:nth-child(6) { display: none; }
+    #players .number-badge { width: 24px; height: 24px; font-size: 11px; }
+    #players .pos-badge { font-size: 10px; padding: 2px 6px; }
+
+    .match-filters { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 8px; margin-bottom: 12px; }
+    .match-filters::-webkit-scrollbar { display: none; }
+    .filter-btn { white-space: nowrap; padding: 8px 12px; font-size: 12px; flex-shrink: 0; }
+
+    .match-card { padding: 10px 8px; margin-bottom: 8px; }
+    .match-header { margin-bottom: 10px; font-size: 11px; }
+    .match-status { font-size: 10px; padding: 2px 6px; }
+
+    .match-body {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+    }
+    .match-team-logo { width: 45px; height: 45px; }
+    .match-team { font-size: 12px; }
+    .match-score { font-size: 18px; padding: 8px 14px; }
+  }
 </style>
 </head>
 <body>
@@ -246,7 +336,7 @@
 
 <script src="names.js"></script>
 <script>
-// خريطة شعارات الأندية بنقل الروابط الثابتة بدون تذبذب
+// روابط شعارات الأندية الموحدة والثابتة لمنع أي ترميش
 var teamLogos = {
   "الهلال": "https://a.espncdn.com/i/teamlogos/soccer/500/18063.png",
   "الاتحاد": "https://a.espncdn.com/i/teamlogos/soccer/500/18064.png",
@@ -278,7 +368,11 @@ var countryMap = {
   "Saudi Arabia":"السعودية","Portugal":"البرتغال","Brazil":"البرازيل","France":"فرنسا",
   "Argentina":"الأرجنتين","Spain":"إسبانيا","Germany":"ألمانيا","Italy":"إيطاليا",
   "England":"إنجلترا","Netherlands":"هولندا","Belgium":"بلجيكا","Senegal":"السنغال",
-  "Morocco":"المغرب","Egypt":"مصر","Algeria":"الجزائر","Tunisia":"تونس"
+  "Morocco":"المغرب","Egypt":"مصر","Algeria":"الجزائر","Tunisia":"تونس","Iraq":"العراق",
+  "Jordan":"الأردن","Kuwait":"الكويت","UAE":"الإمارات","United Arab Emirates":"الإمارات",
+  "Qatar":"قطر","Bahrain":"البحرين","Oman":"عُمان","Yemen":"اليمن","Syria":"سوريا",
+  "Lebanon":"لبنان","Palestine":"فلسطين","Libya":"ليبيا","Sudan":"السودان",
+  "Nigeria":"نيجيريا","Ghana":"غانا","Ivory Coast":"ساحل العاج","Cameroon":"الكاميرون"
 };
 
 function translateName(name) {
@@ -290,6 +384,7 @@ function translateName(name) {
 function translateCountry(c) {
   if (!c) return '—';
   if (countryMap[c]) return countryMap[c];
+  for (var k in countryMap) if (k.toLowerCase() === c.toLowerCase()) return countryMap[k];
   return c;
 }
 
@@ -410,7 +505,6 @@ function formatMatchDate(iso) {
   var months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
   return days[d.getDay()] + '، ' + d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
 }
-
 function formatMatchTime(iso) {
   var d = new Date(iso);
   var h = d.getHours(), m = d.getMinutes();
@@ -419,7 +513,6 @@ function formatMatchTime(iso) {
   var mm = m < 10 ? '0' + m : m;
   return h + ':' + mm + ' ' + ampm;
 }
-
 function posName(a) {
   if (a === 'GK' || a === 'G') return 'GK';
   if (['DF','D','CB','LB','RB'].indexOf(a) !== -1) return 'DF';
@@ -427,7 +520,6 @@ function posName(a) {
   if (['FW','F','ST','CF','LW','RW'].indexOf(a) !== -1) return 'FW';
   return a;
 }
-
 function posArabic(a) {
   var p = posName(a);
   return p === 'GK' ? 'حارس' : p === 'DF' ? 'مدافع' : p === 'MF' ? 'وسط' : p === 'FW' ? 'مهاجم' : (a || '—');
@@ -437,6 +529,9 @@ var allMatches = [];
 var allPlayers = [];
 var originalStandings = [];
 var currentFilter = 'today';
+var previousRanks = {};
+var secondsSinceRefresh = 0;
+var REFRESH_INTERVAL = 60;
 
 function getMatchState(m) {
   var status = (m.status || '').toLowerCase();
@@ -451,7 +546,7 @@ function getMatchState(m) {
   return 'finished';
 }
 
-// دالة المقارنة بالتاريخ المحلي للسعودية (KSA)
+// دالة لاستخراج تاريخ اليوم بتوقيت السعودية بدقة لمنع تفاوت الأعداد
 function getKSADateKey(dInput) {
   var d = new Date(dInput);
   if (isNaN(d.getTime())) return '';
@@ -495,23 +590,88 @@ function getFilteredMatches(filter) {
   }).sort(function(a, b) { return new Date(a.date) - new Date(b.date); });
 }
 
-function renderStandings() {
-  var html = '';
-  originalStandings.forEach(function(t, i) {
-    var rankClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
-    html += '<tr>';
-    html += '<td><span class="rank-badge ' + rankClass + '">' + (i + 1) + '</span></td>';
-    html += '<td class="team">' + teamLinkHTML(t.t, true) + '</td>';
-    html += '<td>' + t.p + '</td><td>' + t.w + '</td><td>' + t.d + '</td><td>' + t.l + '</td>';
-    html += '<td>' + t.gf + '</td><td>' + t.ga + '</td>';
-    html += '<td>' + (t.gf - t.ga) + '</td>';
-    html += '<td><strong>' + t.pts + '</strong></td>';
-    html += '</tr>';
+function computeLiveStandings() {
+  var table = originalStandings.map(function(t) {
+    return { t: t.t, p: parseInt(t.p)||0, w: parseInt(t.w)||0, d: parseInt(t.d)||0,
+             l: parseInt(t.l)||0, gf: parseInt(t.gf)||0, ga: parseInt(t.ga)||0,
+             pts: parseInt(t.pts)||0, live: false };
   });
-  document.getElementById('standingsBody').innerHTML = html;
+  var liveMatches = [];
+  allMatches.forEach(function(m) {
+    if (isLiveState(getMatchState(m))) {
+      liveMatches.push(m);
+      var hs = parseInt(m.hs) || 0, as = parseInt(m.as) || 0;
+      var home = table.find(function(t) { return t.t === m.home; });
+      var away = table.find(function(t) { return t.t === m.away; });
+      if (home && away) {
+        home.live = true; away.live = true;
+        home.p++; away.p++;
+        home.gf += hs; home.ga += as;
+        away.gf += as; away.ga += hs;
+        if (hs > as) { home.w++; home.pts += 3; away.l++; }
+        else if (as > hs) { away.w++; away.pts += 3; home.l++; }
+        else { home.d++; home.pts++; away.d++; away.pts++; }
+      }
+    }
+  });
+  table.sort(function(a, b) {
+    if (b.pts !== a.pts) return b.pts - a.pts;
+    var gdA = a.gf - a.ga, gdB = b.gf - b.ga;
+    if (gdB !== gdA) return gdB - gdA;
+    return b.gf - a.gf;
+  });
+  table.forEach(function(t, i) { t.r = i + 1; });
+  return { table: table, liveMatches: liveMatches };
 }
 
-function renderMatches() {
+function renderLiveStandings() {
+  var result = computeLiveStandings();
+  var table = result.table;
+  var liveMatches = result.liveMatches;
+  var info = document.getElementById('liveMatchesInfo');
+  if (liveMatches.length === 0) {
+    info.innerHTML = 'لا توجد مباريات جارية حالياً.';
+  } else {
+    var mhtml = '<b>' + liveMatches.length + ' مباراة جارية الآن:</b><br>';
+    liveMatches.forEach(function(m) {
+      mhtml += '⚽ ' + m.home + ' <b>' + m.hs + ' - ' + m.as + '</b> ' + m.away + '<br>';
+    });
+    info.innerHTML = mhtml;
+  }
+  var html = '';
+  table.forEach(function(t) {
+    var prev = previousRanks[t.t];
+    var changeHtml = '';
+    if (prev !== undefined && prev !== t.r) {
+      var diff = prev - t.r;
+      if (diff > 0) changeHtml = '<span class="change-up"> ▲</span>';
+      else changeHtml = '<span class="change-down"> ▼</span>';
+    }
+    var rowClass = t.live ? 'live-team' : '';
+    var rankClass = 'rank-badge';
+    if (t.r === 1) rankClass += ' gold';
+    else if (t.r === 2) rankClass += ' silver';
+    else if (t.r === 3) rankClass += ' bronze';
+    var gd = t.gf - t.ga;
+    var gdStr = (gd > 0 ? '+' : '') + gd;
+    html += '<tr class="' + rowClass + '">';
+    html += '<td data-label="#"><span class="' + rankClass + '">' + t.r + '</span>' + changeHtml + '</td>';
+    html += '<td data-label="الفريق" class="team">' + teamLinkHTML(t.t, true) + (t.live ? ' ⚽' : '') + '</td>';
+    html += '<td data-label="لعب">' + t.p + '</td>';
+    html += '<td data-label="فاز">' + t.w + '</td>';
+    html += '<td data-label="تعادل">' + t.d + '</td>';
+    html += '<td data-label="خسر">' + t.l + '</td>';
+    html += '<td data-label="له">' + t.gf + '</td>';
+    html += '<td data-label="عليه">' + t.ga + '</td>';
+    html += '<td data-label="الفرق">' + gdStr + '</td>';
+    html += '<td data-label="النقاط"><b>' + t.pts + '</b></td></tr>';
+  });
+  document.getElementById('liveBody').innerHTML = html;
+  previousRanks = {};
+  table.forEach(function(t) { previousRanks[t.t] = t.r; });
+}
+
+function buildFilters() {
   var counts = { all: allMatches.length, live: 0, today: 0, tomorrow: 0, yesterday: 0 };
   allMatches.forEach(function(m) {
     var state = getMatchState(m);
@@ -522,135 +682,152 @@ function renderMatches() {
     if (cat === 'yesterday') counts.yesterday++;
   });
 
-  var filtersHtml = '';
-  var filtersList = [
+  var filters = [
     { id: 'all', label: '📋 الكل', count: counts.all },
     { id: 'tomorrow', label: '➡️ غداً', count: counts.tomorrow },
     { id: 'today', label: '📅 اليوم', count: counts.today },
     { id: 'yesterday', label: '⬅️ أمس', count: counts.yesterday }
   ];
 
-  if (counts.live > 0) filtersList.unshift({ id: 'live', label: '🔴 مباشر', count: counts.live });
-
-  filtersList.forEach(function(f) {
-    var activeClass = currentFilter === f.id ? 'active' : '';
-    filtersHtml += '<button class="filter-btn ' + activeClass + '" onclick="setMatchFilter(\'' + f.id + '\')">';
-    filtersHtml += f.label + ' <span class="count">' + f.count + '</span>';
-    filtersHtml += '</button>';
-  });
-
-  document.getElementById('matchFilters').innerHTML = filtersHtml;
-
-  var filtered = getFilteredMatches(currentFilter);
-  if (filtered.length === 0) {
-    document.getElementById('resultsData').innerHTML = '<div class="empty">لا توجد مباريات مسجلة لهذا الفلتر</div>';
-    return;
-  }
+  if (counts.live > 0) filters.unshift({ id: 'live', label: '🔴 مباشر', count: counts.live });
 
   var html = '';
-  filtered.forEach(function(m) {
-    var state = getMatchState(m);
-    var isLive = isLiveState(state);
-    var isFinished = state === 'finished';
-
-    html += '<div class="match-card ' + (isLive ? 'live' : '') + '">';
-    html += '<div class="match-header">';
-    html += '<span class="match-status ' + (isLive ? 'live' : isFinished ? 'finished' : '') + '">';
-    html += isLive ? '🔴 مباشر' : isFinished ? '✅ انتهت' : '⏱️ ' + formatMatchTime(m.date);
-    html += '</span>';
-    html += '<span>' + formatMatchDate(m.date) + '</span>';
-    html += '</div>';
-
-    html += '<div class="match-body">';
-    html += teamMatchLinkHTML(m.home);
-
-    html += '<div class="match-center">';
-    if (isFinished || isLive) {
-      html += '<div class="match-score ' + (isLive ? 'live-score' : '') + '">' + m.hs + ' - ' + m.as + '</div>';
-    } else {
-      var diff = new Date(m.date).getTime() - Date.now();
-      if (diff > 0) {
-        var hrs = Math.floor((diff % 86400000) / 3600000);
-        var mins = Math.floor((diff % 3600000) / 60000);
-        var secs = Math.floor((diff % 60000) / 1000);
-        html += '<div class="countdown">';
-        html += '<div class="cd-box"><div class="cd-num">' + String(secs).padStart(2,'0') + '</div><div class="cd-label">ثانية</div></div>';
-        html += '<span class="cd-sep">:</span>';
-        html += '<div class="cd-box"><div class="cd-num">' + String(mins).padStart(2,'0') + '</div><div class="cd-label">دقيقة</div></div>';
-        html += '<span class="cd-sep">:</span>';
-        html += '<div class="cd-box"><div class="cd-num">' + String(hrs).padStart(2,'0') + '</div><div class="cd-label">ساعة</div></div>';
-        html += '</div>';
-      } else {
-        html += '<div class="match-score">' + (m.hs || 0) + ' - ' + (m.as || 0) + '</div>';
-      }
-    }
-    html += '</div>';
-
-    html += teamMatchLinkHTML(m.away);
-    html += '</div></div>';
+  filters.forEach(function(f) {
+    var activeClass = currentFilter === f.id ? 'active' : '';
+    html += '<button class="filter-btn ' + activeClass + '" onclick="setFilter(\'' + f.id + '\')">' + f.label + ' <span class="count">' + f.count + '</span></button>';
   });
-
-  document.getElementById('resultsData').innerHTML = html;
+  document.getElementById('matchFilters').innerHTML = html;
 }
 
-function setMatchFilter(filter) {
-  currentFilter = filter;
-  renderMatches();
+function setFilter(f) { 
+  currentFilter = f; 
+  buildFilters(); 
+  renderMatches(); 
+}
+
+function countdownHTML(matchDate) {
+  var safeId = matchDate.replace(/[^a-zA-Z0-9]/g, '');
+  return '<div class="countdown" data-mdate="' + matchDate + '" id="cd-' + safeId + '"></div>';
+}
+
+function updateAllCountdowns() {
+  var countdowns = document.querySelectorAll('.countdown');
+  countdowns.forEach(function(el) {
+    var mdate = el.getAttribute('data-mdate');
+    if (!mdate) return;
+    var diff = new Date(mdate).getTime() - Date.now();
+    if (diff <= 0) { el.innerHTML = ''; return; }
+    var totalSec = Math.floor(diff / 1000);
+    var days = Math.floor(totalSec / 86400);
+    var hours = Math.floor((totalSec % 86400) / 3600);
+    var mins = Math.floor((totalSec % 3600) / 60);
+    var secs = totalSec % 60;
+    var html = '';
+    if (totalSec < 3600) {
+      html = '<div class="cd-box"><div class="cd-num">' + (mins<10?'0'+mins:mins) + '</div><div class="cd-label">دقيقة</div></div><div class="cd-sep">:</div><div class="cd-box"><div class="cd-num">' + (secs<10?'0'+secs:secs) + '</div><div class="cd-label">ثانية</div></div>';
+    } else if (totalSec < 86400) {
+      html = '<div class="cd-box"><div class="cd-num">' + hours + '</div><div class="cd-label">ساعة</div></div><div class="cd-sep">:</div><div class="cd-box"><div class="cd-num">' + (mins<10?'0'+mins:mins) + '</div><div class="cd-label">دقيقة</div></div><div class="cd-sep">:</div><div class="cd-box"><div class="cd-num">' + (secs<10?'0'+secs:secs) + '</div><div class="cd-label">ثانية</div></div>';
+    } else {
+      html = '<div class="cd-box"><div class="cd-num">' + days + '</div><div class="cd-label">' + (days===1?'يوم':'أيام') + '</div></div><div class="cd-sep">:</div><div class="cd-box"><div class="cd-num">' + (hours<10?'0'+hours:hours) + '</div><div class="cd-label">ساعة</div></div><div class="cd-sep">:</div><div class="cd-box"><div class="cd-num">' + (mins<10?'0'+mins:mins) + '</div><div class="cd-label">دقيقة</div></div><div class="cd-sep">:</div><div class="cd-box"><div class="cd-num">' + (secs<10?'0'+secs:secs) + '</div><div class="cd-label">ثانية</div></div>';
+    }
+    el.innerHTML = html;
+  });
+}
+
+function renderMatches() {
+  var filtered = getFilteredMatches(currentFilter);
+  var rd = document.getElementById('resultsData');
+  if (filtered.length === 0) {
+    rd.innerHTML = '<div class="empty">لا توجد مباريات في هذه الفئة.</div>';
+    return;
+  }
+  var rhtml = '';
+  filtered.forEach(function(m) {
+    var state = getMatchState(m);
+    var headerStatus, statusClass, centerHtml, cardClass = 'match-card';
+    if (state === 'finished') {
+      statusClass = 'match-status finished'; headerStatus = '✅ انتهت';
+      centerHtml = '<div class="match-score">' + m.hs + ' - ' + m.as + '</div>';
+    } else if (state === 'halftime') {
+      statusClass = 'match-status live'; headerStatus = '⏸️ بين الشوطين';
+      centerHtml = '<div class="match-score live-score">' + m.hs + ' - ' + m.as + '</div>';
+      cardClass += ' live';
+    } else if (state === 'live' || state === 'live-auto') {
+      statusClass = 'match-status live';
+      var clock = m.clock ? " - د" + m.clock : '';
+      headerStatus = state === 'live-auto' ? '🔴 مباشر (تقديري)' : '🔴 مباشر' + clock;
+      centerHtml = '<div class="match-score live-score">' + m.hs + ' - ' + m.as + '</div>';
+      cardClass += ' live';
+    } else {
+      statusClass = 'match-status'; headerStatus = '⏱️ ' + formatMatchTime(m.date);
+      centerHtml = countdownHTML(m.date);
+    }
+    rhtml += '<div class="' + cardClass + '">';
+    rhtml += '<div class="match-header"><div>' + formatMatchDate(m.date) + '</div><div class="' + statusClass + '">' + headerStatus + '</div></div>';
+    rhtml += '<div class="match-body">';
+    rhtml += teamMatchLinkHTML(m.home);
+    rhtml += '<div class="match-center">' + centerHtml + '</div>';
+    rhtml += teamMatchLinkHTML(m.away);
+    rhtml += '</div></div>';
+  });
+  rd.innerHTML = rhtml;
+  updateAllCountdowns();
 }
 
 function filterPlayers() {
-  var nameQuery = document.getElementById('playerSearch').value.toLowerCase();
-  var teamQuery = document.getElementById('teamFilter').value;
-  var posQuery = document.getElementById('posFilter').value;
-
+  var search = document.getElementById('playerSearch').value.toLowerCase().trim();
+  var team = document.getElementById('teamFilter').value;
+  var pos = document.getElementById('posFilter').value;
   var filtered = allPlayers.filter(function(p) {
-    var nameMatch = !nameQuery || (p.name && p.name.toLowerCase().indexOf(nameQuery) !== -1) || (translateName(p.name).toLowerCase().indexOf(nameQuery) !== -1);
-    var teamMatch = !teamQuery || p.team === teamQuery;
-    var posMatch = !posQuery || posName(p.position) === posQuery;
-    return nameMatch && teamMatch && posMatch;
+    var nameAr = translateName(p.name).toLowerCase();
+    var nameEn = p.name.toLowerCase();
+    if (search && nameEn.indexOf(search) === -1 && nameAr.indexOf(search) === -1) return false;
+    if (team && p.team !== team) return false;
+    if (pos && posName(p.position) !== pos) return false;
+    return true;
   });
-
-  var html = '';
-  filtered.slice(0, 100).forEach(function(p, i) {
-    html += '<tr>';
-    html += '<td><span class="number-badge">' + (p.number || (i + 1)) + '</span></td>';
-    html += '<td class="player-name-cell">' + translateName(p.name) + '</td>';
-    html += '<td>' + teamLinkHTML(p.team, true) + '</td>';
-    html += '<td><span class="pos-badge ' + posName(p.position) + '">' + posArabic(p.position) + '</span></td>';
-    html += '<td>' + (p.age || '—') + '</td>';
-    html += '<td>' + translateCountry(p.nationality) + '</td>';
-    html += '</tr>';
-  });
-
-  document.getElementById('playersBody').innerHTML = html || '<tr><td colspan="6" class="empty">لا يوجد لاعبون مطابقون</td></tr>';
-  document.getElementById('playerCount').innerText = 'المعروض: ' + Math.min(filtered.length, 100) + ' من أصل ' + filtered.length + ' لاعب';
+  renderPlayers(filtered);
 }
 
-// جلب البيانات من المجلد المحلي data/
-Promise.all([
-  fetch('data/standings.json').then(function(r) { return r.json(); }),
-  fetch('data/matches.json').then(function(r) { return r.json(); }),
-  fetch('data/players.json').then(function(r) { return r.json(); })
-]).then(function(results) {
-  originalStandings = results[0];
-  allMatches = results[1];
-  allPlayers = results[2];
-
-  var teamSelect = document.getElementById('teamFilter');
-  var teamsList = originalStandings.map(function(s) { return s.t; }).sort();
-  teamsList.forEach(function(t) {
-    var opt = document.createElement('option');
-    opt.value = t; opt.innerText = t;
-    teamSelect.appendChild(opt);
+function renderPlayers(players) {
+  var tb = document.getElementById('playersBody');
+  if (players.length === 0) {
+    tb.innerHTML = '<tr><td colspan="6" class="empty">لا يوجد لاعبون مطابقون للبحث.</td></tr>';
+    document.getElementById('playerCount').textContent = '';
+    return;
+  }
+  var html = '';
+  players.forEach(function(p) {
+    var posClass = posName(p.position);
+    html += '<tr>';
+    html += '<td data-label="#"><span class="number-badge">' + (p.number || '—') + '</span></td>';
+    html += '<td data-label="اللاعب" class="team player-name-cell">' + translateName(p.name) + '</td>';
+    html += '<td data-label="الفريق">' + p.team + '</td>';
+    html += '<td data-label="المركز"><span class="pos-badge ' + posClass + '">' + posArabic(p.position) + '</span></td>';
+    html += '<td data-label="العمر">' + (p.age || '—') + '</td>';
+    html += '<td data-label="الجنسية">' + translateCountry(p.nationality) + '</td></tr>';
   });
+  tb.innerHTML = html;
+  document.getElementById('playerCount').textContent = 'عدد اللاعبين: ' + players.length + ' من ' + allPlayers.length;
+}
 
-  renderStandings();
-  renderMatches();
-  filterPlayers();
-  setInterval(renderMatches, 1000);
-}).catch(function(err) {
-  console.error('خطأ في جلب البيانات:', err);
-});
-</script>
-</body>
-</html>
+function loadData(showLoader) {
+  if (showLoader) {
+    document.getElementById('standingsBody').innerHTML = '<tr><td colspan="10" class="loading">جاري التحميل...</td></tr>';
+  }
+  fetch('data.json?v=' + Date.now())
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var html = '';
+      data.standings.forEach(function(t) {
+        html += '<tr>';
+        html += '<td data-label="#">' + t.r + '</td>';
+        html += '<td data-label="الفريق" class="team">' + teamLinkHTML(t.t, true) + '</td>';
+        html += '<td data-label="لعب">' + t.p + '</td>';
+        html += '<td data-label="فاز">' + t.w + '</td>';
+        html += '<td data-label="تعادل">' + t.d + '</td>';
+        html += '<td data-label="خسر">' + t.l + '</td>';
+        html += '<td data-label="له">' + t.gf + '</td>';
+        html += '<td data-label="عليه">' + t.ga + '</td>';
+        html += '<td data-label="الفرق">' + t.gd + '</td>';
+        html += '<td data-label="النقاط"><b>' +
