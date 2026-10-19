@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>دوري روشن السعودي</title>
+  <title>الدوري السعودي للمحترفين</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { font-family: system-ui, -apple-system, sans-serif; background-color: #f8fafc; }
@@ -12,18 +12,25 @@
 </head>
 <body class="p-4 md:p-8">
 
+  <!-- عنوان الموقع العلوي -->
+  <div class="text-center mb-6">
+    <h1 class="text-2xl font-bold text-blue-900 flex items-center justify-center gap-2">
+      ⚽ الدوري السعودي للمحترفين
+    </h1>
+  </div>
+
   <!-- شريط التنقل العلوي -->
-  <div class="max-w-6xl mx-auto bg-white p-3 rounded-xl shadow mb-6 flex flex-wrap gap-2 justify-center border">
-    <button onclick="switchTab('standings-tab', this)" class="tab-btn active-tab px-5 py-2 rounded-lg font-bold text-gray-700 transition">الترتيب</button>
-    <button onclick="switchTab('matches-tab', this)" class="tab-btn px-5 py-2 rounded-lg font-bold text-gray-700 transition">المباريات</button>
-    <button onclick="switchTab('scorers-tab', this)" class="tab-btn px-5 py-2 rounded-lg font-bold text-gray-700 transition">⚽ الهدافين والإحصائيات</button>
-    <button onclick="switchTab('players-tab', this)" class="tab-btn px-5 py-2 rounded-lg font-bold text-gray-700 transition">جميع اللاعبين</button>
+  <div class="max-w-6xl mx-auto bg-white p-3 rounded-xl shadow mb-6 flex flex-wrap gap-2 justify-end border">
+    <button onclick="switchTab('standings-tab', this)" class="tab-btn px-5 py-2 rounded-lg font-bold text-gray-700 transition">الترتيب</button>
+    <button onclick="switchTab('players-tab', this)" class="tab-btn px-5 py-2 rounded-lg font-bold text-gray-700 transition">اللاعبون</button>
+    <button onclick="switchTab('matches-tab', this)" class="tab-btn active-tab px-5 py-2 rounded-lg font-bold text-gray-750 transition">المباريات</button>
+    <button onclick="switchTab('scorers-tab', this)" class="tab-btn px-5 py-2 rounded-lg font-bold text-gray-700 transition">⚽ الهدافين</button>
   </div>
 
   <div class="max-w-6xl mx-auto">
 
     <!-- 1. تبويب الترتيب -->
-    <div id="standings-tab" class="tab-content">
+    <div id="standings-tab" class="tab-content hidden">
       <div class="bg-white rounded-xl shadow overflow-hidden">
         <div class="bg-blue-900 text-white p-4 font-bold text-lg text-center">جدول ترتيب دوري روشن السعودي</div>
         <div class="overflow-x-auto">
@@ -48,12 +55,9 @@
       </div>
     </div>
 
-    <!-- 2. تبويب المباريات -->
-    <div id="matches-tab" class="tab-content hidden">
-      <div class="bg-white rounded-xl shadow p-4">
-        <div class="bg-blue-900 text-white p-4 font-bold text-lg text-center rounded-lg mb-4">جدول المباريات</div>
-        <div id="matches-list" class="grid gap-4 md:grid-cols-2"></div>
-      </div>
+    <!-- 2. تبويب المباريات بتصميم بطاقات العِداد التنازلي -->
+    <div id="matches-tab" class="tab-content">
+      <div id="matches-list" class="grid gap-4"></div>
     </div>
 
     <!-- 3. تبويب الهدافين والإحصائيات -->
@@ -81,7 +85,7 @@
       </div>
     </div>
 
-    <!-- 4. تبويب جميع اللاعبين -->
+    <!-- 4. تبويب اللاعبين -->
     <div id="players-tab" class="tab-content hidden">
       <div class="bg-white rounded-xl shadow overflow-hidden p-4">
         <div class="bg-blue-900 text-white p-4 font-bold text-lg text-center rounded-lg mb-4">قائمة جميع اللاعبين</div>
@@ -105,7 +109,6 @@
   </div>
 
   <script>
-    // التنقل بين التبويبات
     function switchTab(tabId, btn) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
       document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active-tab'));
@@ -113,7 +116,56 @@
       btn.classList.add('active-tab');
     }
 
-    // جلب الترتيب
+    let rawMatchesData = [];
+
+    // دالة لحساب العِداد التنازلي للوقت المتبقي للمباراة
+    function updateCountdowns() {
+      const now = new Date().getTime();
+
+      rawMatchesData.forEach((m, idx) => {
+        const matchTime = new Date(m.date).getTime();
+        const diff = matchTime - now;
+
+        const container = document.getElementById(`countdown-${idx}`);
+        if (!container) return;
+
+        if (m.completed) {
+          container.innerHTML = `
+            <div class="bg-blue-900 text-white font-bold px-4 py-2 rounded-xl text-lg shadow">
+              ${m.hs} : ${m.as}
+            </div>`;
+        } else if (diff > 0) {
+          const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+          container.innerHTML = `
+            <div class="flex items-center gap-2">
+              <div class="bg-blue-900 text-white p-2 rounded-lg text-center w-14">
+                <div class="text-base font-bold">${String(seconds).padStart(2, '0')}</div>
+                <div class="text-[10px] text-gray-200">ثانية</div>
+              </div>
+              <span class="font-bold text-blue-900">:</span>
+              <div class="bg-blue-900 text-white p-2 rounded-lg text-center w-14">
+                <div class="text-base font-bold">${String(minutes).padStart(2, '0')}</div>
+                <div class="text-[10px] text-gray-200">دقيقة</div>
+              </div>
+              <span class="font-bold text-blue-900">:</span>
+              <div class="bg-blue-900 text-white p-2 rounded-lg text-center w-14">
+                <div class="text-base font-bold">${String(hours).padStart(2, '0')}</div>
+                <div class="text-[10px] text-gray-200">ساعة</div>
+              </div>
+            </div>`;
+        } else {
+          container.innerHTML = `
+            <div class="bg-red-600 text-white font-bold px-4 py-2 rounded-xl text-sm shadow animate-pulse">
+              جارية الآن ⚽
+            </div>`;
+        }
+      });
+    }
+
+    // 1. جلب الترتيب
     fetch('data/standings.json')
       .then(r => r.json())
       .then(data => {
@@ -133,24 +185,52 @@
         `).join('');
       }).catch(e => console.error(e));
 
-    // جلب المباريات
+    // 2. جلب المباريات وعرض العداد التنازلي
     fetch('data/matches.json')
       .then(r => r.json())
       .then(data => {
-        document.getElementById('matches-list').innerHTML = data.slice(0, 20).map(m => `
-          <div class="border p-4 rounded-lg bg-gray-50 flex justify-between items-center shadow-sm">
-            <div class="font-bold text-gray-800">${m.home}</div>
-            <div class="bg-blue-900 text-white font-bold px-3 py-1 rounded">${m.hs} - ${m.as}</div>
-            <div class="font-bold text-gray-800">${m.away}</div>
-          </div>
-        `).join('');
+        rawMatchesData = data;
+        
+        document.getElementById('matches-list').innerHTML = data.map((m, idx) => {
+          const matchDate = new Date(m.date);
+          const dateStr = matchDate.toLocaleDateString('ar-SA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+          const timeStr = matchDate.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' });
+
+          return `
+            <div class="bg-white border rounded-xl p-4 shadow-sm relative">
+              <div class="flex justify-between items-center text-xs text-gray-400 mb-3 px-2">
+                <span class="bg-blue-50 text-blue-800 px-2 py-1 rounded-md font-semibold">⏱️ ${timeStr}</span>
+                <span>${dateStr}</span>
+              </div>
+
+              <div class="flex items-center justify-between gap-2 px-4 py-2">
+                <!-- الفريق المستضيف -->
+                <div class="flex flex-col items-center w-1/3">
+                  <span class="font-bold text-blue-900 text-center text-base">${m.home}</span>
+                </div>
+
+                <!-- عداد الوقت التنازلي -->
+                <div id="countdown-${idx}" class="flex justify-center items-center w-1/3">
+                  <!-- محتوى العداد التنازلي يولد تلقائياً -->
+                </div>
+
+                <!-- الفريق الضيف -->
+                <div class="flex flex-col items-center w-1/3">
+                  <span class="font-bold text-blue-900 text-center text-base">${m.away}</span>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        updateCountdowns();
+        setInterval(updateCountdowns, 1000);
       }).catch(e => console.error(e));
 
-    // جلب اللاعبين وإحصائيات الهدافين
+    // 3. جلب اللاعبين والهدافين
     fetch('data/players.json')
       .then(r => r.json())
       .then(players => {
-        // 1. قائمة الهدافين
         const topScorers = players
           .filter(p => (p.goals || 0) > 0 || (p.assists || 0) > 0)
           .sort((a, b) => b.goals - a.goals || b.assists - a.assists)
@@ -168,7 +248,6 @@
           </tr>
         `).join('');
 
-        // 2. قائمة جميع اللاعبين
         document.getElementById('all-players-list').innerHTML = players.slice(0, 50).map(p => `
           <tr class="hover:bg-gray-50">
             <td class="p-3 font-semibold text-blue-900">${p.name}</td>
