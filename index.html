@@ -230,30 +230,29 @@
       modal.classList.remove('hidden');
     }
 
-    // دالة استخراج مفتاح التاريخ بشكل آمن وبدون أي أخطاء
-    function parseToDateKey(dateStr) {
-      if (!dateStr) return '';
-      let d = new Date(dateStr);
+    // حساب مفتاح التاريخ بتوقيت السعودية (+3)
+    function getKSADateKey(dateInput) {
+      if (!dateInput) return '';
+      let d = new Date(dateInput);
       if (isNaN(d.getTime())) return '';
       
-      // تحويل التاريخ إلى صيغة yyyy-mm-dd
-      let y = d.getFullYear();
-      let m = String(d.getMonth() + 1).padStart(2, '0');
-      let day = String(d.getDate()).padStart(2, '0');
+      // تحويل التاريخ إلى توقيت غرينتش + 3 ساعات لتطبيق توقيت السعودية
+      let ksaTime = new Date(d.getTime() + (3 * 60 * 60 * 1000));
+      let y = ksaTime.getUTCFullYear();
+      let m = String(ksaTime.getUTCMonth() + 1).padStart(2, '0');
+      let day = String(ksaTime.getUTCDate()).padStart(2, '0');
       return `${y}-${m}-${day}`;
     }
 
     function renderMatches() {
-      const now = new Date();
-      const todayStr = parseToDateKey(now);
+      const nowKSA = new Date(new Date().getTime() + (3 * 60 * 60 * 1000));
+      const todayStr = getKSADateKey(nowKSA);
 
-      const yesterday = new Date(now);
-      yesterday.setDate(now.getDate() - 1);
-      const yesterdayStr = parseToDateKey(yesterday);
+      const yesterdayKSA = new Date(nowKSA.getTime() - (24 * 60 * 60 * 1000));
+      const yesterdayStr = getKSADateKey(yesterdayKSA);
 
-      const tomorrow = new Date(now);
-      tomorrow.setDate(now.getDate() + 1);
-      const tomorrowStr = parseToDateKey(tomorrow);
+      const tomorrowKSA = new Date(nowKSA.getTime() + (24 * 60 * 60 * 1000));
+      const tomorrowStr = getKSADateKey(tomorrowKSA);
 
       let countAll = globalMatches.length;
       let countToday = 0;
@@ -261,7 +260,7 @@
       let countTomorrow = 0;
 
       globalMatches.forEach(m => {
-        let key = parseToDateKey(m.date);
+        let key = getKSADateKey(m.date);
         if (key === todayStr) countToday++;
         else if (key === yesterdayStr) countYesterday++;
         else if (key === tomorrowStr) countTomorrow++;
@@ -273,7 +272,7 @@
       document.getElementById('count-tomorrow').innerText = countTomorrow;
 
       const filtered = globalMatches.filter(m => {
-        let key = parseToDateKey(m.date);
+        let key = getKSADateKey(m.date);
         if (currentFilter === 'today') return key === todayStr;
         if (currentFilter === 'yesterday') return key === yesterdayStr;
         if (currentFilter === 'tomorrow') return key === tomorrowStr;
@@ -296,11 +295,14 @@
         const diff = matchTime - currTime;
 
         let centerContent = '';
+        let statusBadge = '';
+
         if (m.completed) {
           centerContent = `
             <div class="bg-blue-900 text-white font-bold px-5 py-2 rounded-xl text-lg shadow">
               ${m.hs} - ${m.as}
             </div>`;
+          statusBadge = `<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-[10px] font-bold">✅ انتهت</span>`;
         } else if (!isNaN(diff) && diff > 0) {
           const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
           const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
@@ -333,7 +335,10 @@
         return `
           <div class="bg-white border rounded-xl p-4 shadow-sm relative">
             <div class="flex justify-between items-center text-xs text-gray-400 mb-3">
-              <span class="bg-blue-50 text-blue-800 px-2.5 py-1 rounded-md font-bold">⏱️ ${timeStr || 'محدد'}</span>
+              <div class="flex items-center gap-2">
+                <span class="bg-blue-50 text-blue-800 px-2.5 py-1 rounded-md font-bold">⏱️ ${timeStr || 'محدد'}</span>
+                ${statusBadge}
+              </div>
               <span class="font-medium">${dateStr}</span>
             </div>
 
