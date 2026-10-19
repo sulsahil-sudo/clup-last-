@@ -56,18 +56,18 @@
       </div>
     </div>
 
-    <!-- 2. تبويب المباريات بالتصميم المطلوب تماماً -->
+    <!-- 2. تبويب المباريات -->
     <div id="matches-tab" class="tab-content">
       <!-- أزرار الفلترة العلوية -->
       <div class="flex flex-wrap gap-2 mb-6 justify-end items-center">
-        <button onclick="filterMatches('all', this)" id="btn-filter-all" class="filter-btn bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-full font-bold text-sm shadow-sm flex items-center gap-1.5 hover:bg-gray-50">
-          📋 الكل <span id="count-all" class="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full font-semibold">0</span>
+        <button onclick="filterMatches('all', this)" id="btn-filter-all" class="filter-btn filter-btn-active bg-blue-900 text-white px-4 py-2 rounded-full font-bold text-sm shadow-sm flex items-center gap-1.5">
+          📋 الكل <span id="count-all" class="bg-blue-800 text-white text-xs px-2 py-0.5 rounded-full font-semibold">0</span>
         </button>
         <button onclick="filterMatches('yesterday', this)" class="filter-btn bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-full font-bold text-sm shadow-sm flex items-center gap-1.5 hover:bg-gray-50">
           ⬅️ أمس <span id="count-yesterday" class="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full font-semibold">0</span>
         </button>
-        <button onclick="filterMatches('today', this)" class="filter-btn filter-btn-active bg-blue-900 text-white px-4 py-2 rounded-full font-bold text-sm shadow-sm flex items-center gap-1.5">
-          📅 اليوم <span id="count-today" class="bg-blue-800 text-white text-xs px-2 py-0.5 rounded-full font-semibold">0</span>
+        <button onclick="filterMatches('today', this)" class="filter-btn bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-full font-bold text-sm shadow-sm flex items-center gap-1.5 hover:bg-gray-50">
+          📅 اليوم <span id="count-today" class="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full font-semibold">0</span>
         </button>
         <button onclick="filterMatches('tomorrow', this)" class="filter-btn bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-full font-bold text-sm shadow-sm flex items-center gap-1.5 hover:bg-gray-50">
           ➡️ غداً <span id="count-tomorrow" class="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full font-semibold">0</span>
@@ -156,7 +156,7 @@
     let globalStandings = [];
     let globalPlayers = [];
     let globalMatches = [];
-    let currentFilter = 'today';
+    let currentFilter = 'all';
 
     function switchTab(tabId, btn) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
@@ -212,8 +212,8 @@
       const teamMatches = globalMatches.filter(m => m.home === teamName || m.away === teamName);
       document.getElementById('modal-matches-list').innerHTML = teamMatches.map(m => {
         const matchDate = new Date(m.date);
-        const dateStr = matchDate.toLocaleDateString('ar-SA', { month: 'short', day: 'numeric' });
-        const timeStr = matchDate.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' });
+        const dateStr = !isNaN(matchDate) ? matchDate.toLocaleDateString('ar-SA', { month: 'short', day: 'numeric' }) : '';
+        const timeStr = !isNaN(matchDate) ? matchDate.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' }) : '';
 
         return `
           <div class="bg-gray-50 border rounded-lg p-2.5 flex justify-between items-center text-xs">
@@ -230,32 +230,32 @@
       modal.classList.remove('hidden');
     }
 
-    // دالة فحص وتحديث الأعداد وتصفية المباريات
+    function getNormalizedDate(dateInput) {
+      const d = new Date(dateInput);
+      if (isNaN(d)) return '';
+      return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    }
+
     function renderMatches() {
       const now = new Date();
-      const todayStr = now.toISOString().split('T')[0];
+      const todayStr = getNormalizedDate(now);
       
       const yesterday = new Date(now); yesterday.setDate(yesterday.getDate() - 1);
-      const yesterdayStr = yesterday.toISOString().split('T')[0];
+      const yesterdayStr = getNormalizedDate(yesterday);
 
       const tomorrow = new Date(now); tomorrow.setDate(tomorrow.getDate() + 1);
-      const tomorrowStr = tomorrow.toISOString().split('T')[0];
+      const tomorrowStr = getNormalizedDate(tomorrow);
 
       let countAll = globalMatches.length;
       let countToday = 0;
       let countYesterday = 0;
       let countTomorrow = 0;
 
-      const filtered = globalMatches.filter(m => {
-        const mDateStr = new Date(m.date).toISOString().split('T')[0];
+      globalMatches.forEach(m => {
+        const mDateStr = getNormalizedDate(m.date);
         if (mDateStr === todayStr) countToday++;
         if (mDateStr === yesterdayStr) countYesterday++;
         if (mDateStr === tomorrowStr) countTomorrow++;
-
-        if (currentFilter === 'today') return mDateStr === todayStr;
-        if (currentFilter === 'yesterday') return mDateStr === yesterdayStr;
-        if (currentFilter === 'tomorrow') return mDateStr === tomorrowStr;
-        return true;
       });
 
       document.getElementById('count-all').innerText = countAll;
@@ -263,6 +263,173 @@
       document.getElementById('count-yesterday').innerText = countYesterday;
       document.getElementById('count-tomorrow').innerText = countTomorrow;
 
+      const filtered = globalMatches.filter(m => {
+        const mDateStr = getNormalizedDate(m.date);
+        if (currentFilter === 'today') return mDateStr === todayStr;
+        if (currentFilter === 'yesterday') return mDateStr === yesterdayStr;
+        if (currentFilter === 'tomorrow') return mDateStr === tomorrowStr;
+        return true;
+      });
+
       const container = document.getElementById('matches-list');
       if (filtered.length === 0) {
-        container.
+        container.innerHTML = '<div class="bg-white p-8 rounded-xl text-center text-gray-500 font-semibold border">لا توجد مباريات مسجلة لهذا التاريخ</div>';
+        return;
+      }
+
+      const currTime = new Date().getTime();
+
+      container.innerHTML = filtered.map((m, idx) => {
+        const matchDate = new Date(m.date);
+        const matchTime = matchDate.getTime();
+        const dateStr = !isNaN(matchDate) ? matchDate.toLocaleDateString('ar-SA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : '';
+        const timeStr = !isNaN(matchDate) ? matchDate.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' }) : '';
+        const diff = matchTime - currTime;
+
+        let centerContent = '';
+        if (m.completed) {
+          centerContent = `
+            <div class="bg-blue-900 text-white font-bold px-5 py-2 rounded-xl text-lg shadow">
+              ${m.hs} - ${m.as}
+            </div>`;
+        } else if (!isNaN(diff) && diff > 0) {
+          const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+          centerContent = `
+            <div class="flex items-center gap-1.5">
+              <div class="bg-blue-900 text-white p-1.5 rounded-lg text-center w-12">
+                <div class="text-sm font-bold">${String(seconds).padStart(2, '0')}</div>
+                <div class="text-[9px] text-gray-200">ثانية</div>
+              </div>
+              <span class="font-bold text-blue-900">:</span>
+              <div class="bg-blue-900 text-white p-1.5 rounded-lg text-center w-12">
+                <div class="text-sm font-bold">${String(minutes).padStart(2, '0')}</div>
+                <div class="text-[9px] text-gray-200">دقيقة</div>
+              </div>
+              <span class="font-bold text-blue-900">:</span>
+              <div class="bg-blue-900 text-white p-1.5 rounded-lg text-center w-12">
+                <div class="text-sm font-bold">${String(hours).padStart(2, '0')}</div>
+                <div class="text-[9px] text-gray-200">ساعة</div>
+              </div>
+            </div>`;
+        } else {
+          centerContent = `
+            <div class="bg-blue-900 text-white font-bold px-4 py-2 rounded-xl text-sm shadow">
+              ${m.hs || '0'} - ${m.as || '0'}
+            </div>`;
+        }
+
+        return `
+          <div class="bg-white border rounded-xl p-4 shadow-sm relative">
+            <div class="flex justify-between items-center text-xs text-gray-400 mb-3">
+              <span class="bg-blue-50 text-blue-800 px-2.5 py-1 rounded-md font-bold">⏱️ ${timeStr || 'محدد'}</span>
+              <span class="font-medium">${dateStr}</span>
+            </div>
+
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex flex-col items-center justify-center w-1/3 cursor-pointer hover:opacity-80 transition" onclick="openTeamModal('${m.home}')">
+                <span class="font-bold text-blue-900 text-center text-base">${m.home}</span>
+              </div>
+
+              <div class="flex justify-center items-center w-1/3">
+                ${centerContent}
+              </div>
+
+              <div class="flex flex-col items-center justify-center w-1/3 cursor-pointer hover:opacity-80 transition" onclick="openTeamModal('${m.away}')">
+                <span class="font-bold text-blue-900 text-center text-base">${m.away}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filterMatches(type, btn) {
+      currentFilter = type;
+      document.querySelectorAll('.filter-btn').forEach(b => {
+        b.classList.remove('filter-btn-active', 'bg-blue-900', 'text-white');
+        b.classList.add('bg-white', 'text-gray-700');
+        const countSpan = b.querySelector('span');
+        if (countSpan) {
+          countSpan.classList.remove('bg-blue-800', 'text-white');
+          countSpan.classList.add('bg-gray-100', 'text-gray-600');
+        }
+      });
+      btn.classList.add('filter-btn-active', 'bg-blue-900', 'text-white');
+      btn.classList.remove('bg-white', 'text-gray-700');
+      const activeSpan = btn.querySelector('span');
+      if (activeSpan) {
+        activeSpan.classList.remove('bg-gray-100', 'text-gray-600');
+        activeSpan.classList.add('bg-blue-800', 'text-white');
+      }
+      renderMatches();
+    }
+
+    // 1. جلب الترتيب
+    fetch('data/standings.json')
+      .then(r => r.json())
+      .then(data => {
+        globalStandings = data;
+        document.getElementById('standings-list').innerHTML = data.map(s => `
+          <tr class="hover:bg-gray-50 transition cursor-pointer" onclick="openTeamModal('${s.t}')">
+            <td class="p-3 font-bold">${s.r}</td>
+            <td class="p-3 font-semibold text-blue-900 hover:underline">${s.t}</td>
+            <td class="p-3 text-center">${s.p}</td>
+            <td class="p-3 text-center">${s.w}</td>
+            <td class="p-3 text-center">${s.d}</td>
+            <td class="p-3 text-center">${s.l}</td>
+            <td class="p-3 text-center">${s.gf}</td>
+            <td class="p-3 text-center">${s.ga}</td>
+            <td class="p-3 text-center">${s.gd}</td>
+            <td class="p-3 text-center font-bold text-blue-900">${s.pts}</td>
+          </tr>
+        `).join('');
+      }).catch(e => console.error(e));
+
+    // 2. جلب المباريات
+    fetch('data/matches.json')
+      .then(r => r.json())
+      .then(data => {
+        globalMatches = data;
+        renderMatches();
+        setInterval(renderMatches, 1000);
+      }).catch(e => console.error(e));
+
+    // 3. جلب اللاعبين
+    fetch('data/players.json')
+      .then(r => r.json())
+      .then(players => {
+        globalPlayers = players;
+
+        const topScorers = players
+          .filter(p => (p.goals || 0) > 0 || (p.assists || 0) > 0)
+          .sort((a, b) => b.goals - a.goals || b.assists - a.assists)
+          .slice(0, 30);
+
+        document.getElementById('scorers-list').innerHTML = topScorers.map((p, index) => `
+          <tr class="hover:bg-gray-50 transition">
+            <td class="p-3 font-bold text-gray-500">${index + 1}</td>
+            <td class="p-3 font-semibold text-blue-900">${p.name}</td>
+            <td class="p-3 text-gray-600 cursor-pointer hover:underline" onclick="openTeamModal('${p.team}')">${p.team}</td>
+            <td class="p-3 text-center font-bold text-green-600 text-base">${p.goals || 0}</td>
+            <td class="p-3 text-center text-gray-700">${p.assists || 0}</td>
+            <td class="p-3 text-center text-yellow-600">${p.yellowCards || 0}</td>
+            <td class="p-3 text-center text-red-600">${p.redCards || 0}</td>
+          </tr>
+        `).join('');
+
+        document.getElementById('all-players-list').innerHTML = players.slice(0, 50).map(p => `
+          <tr class="hover:bg-gray-50">
+            <td class="p-3 font-semibold text-blue-900">${p.name}</td>
+            <td class="p-3 cursor-pointer hover:underline" onclick="openTeamModal('${p.team}')">${p.team}</td>
+            <td class="p-3 text-center">${p.position || '-'}</td>
+            <td class="p-3 text-center">${p.number || '-'}</td>
+            <td class="p-3 text-center">${p.nationality || '-'}</td>
+          </tr>
+        `).join('');
+      }).catch(e => console.error(e));
+  </script>
+</body>
+</html>
