@@ -324,18 +324,46 @@
   ],
   "results": [
     {
-      "home_id": "13033",
-      "away_id": "21829",
-      "home": "الفتح",
-      "away": "الخليج",
-      "hs": "2",
-      "as": "3",
-      "date": "2026-10-18T18:00Z",
-      "status": "FT",
-      "state": "post",
-      "completed": true,
-      "clock": "90'+8'",
-      "period": 2
+      "home_id": "21827",
+      "away_id": "8346",
+      "home": "الفيحاء",
+      "away": "الأهلي",
+      "hs": "0",
+      "as": "0",
+      "date": "2026-10-19T15:05Z",
+      "status": "Mon, October 19th at 11:05 AM EDT",
+      "state": "pre",
+      "completed": false,
+      "clock": "0'",
+      "period": 0
+    },
+    {
+      "home_id": "929",
+      "away_id": "21964",
+      "home": "الهلال",
+      "away": "الحزم",
+      "hs": "0",
+      "as": "0",
+      "date": "2026-10-19T18:00Z",
+      "status": "Mon, October 19th at 2:00 PM EDT",
+      "state": "pre",
+      "completed": false,
+      "clock": "0'",
+      "period": 0
+    },
+    {
+      "home_id": "793",
+      "away_id": "21446",
+      "home": "الشباب",
+      "away": "الفيصلي",
+      "hs": "0",
+      "as": "0",
+      "date": "2026-10-19T18:00Z",
+      "status": "Mon, October 19th at 2:00 PM EDT",
+      "state": "pre",
+      "completed": false,
+      "clock": "0'",
+      "period": 0
     },
     {
       "home_id": "22028",
@@ -534,46 +562,18 @@
       "period": 2
     },
     {
-      "home_id": "21827",
-      "away_id": "8346",
-      "home": "الفيحاء",
-      "away": "الأهلي",
-      "hs": "0",
-      "as": "0",
-      "date": "2026-10-19T15:05Z",
-      "status": "Mon, October 19th at 11:05 AM EDT",
-      "state": "pre",
-      "completed": false,
-      "clock": "0'",
-      "period": 0
-    },
-    {
-      "home_id": "929",
-      "away_id": "21964",
-      "home": "الهلال",
-      "away": "الحزم",
-      "hs": "0",
-      "as": "0",
-      "date": "2026-10-19T18:00Z",
-      "status": "Mon, October 19th at 2:00 PM EDT",
-      "state": "pre",
-      "completed": false,
-      "clock": "0'",
-      "period": 0
-    },
-    {
-      "home_id": "793",
-      "away_id": "21446",
-      "home": "الشباب",
-      "away": "الفيصلي",
-      "hs": "0",
-      "as": "0",
-      "date": "2026-10-19T18:00Z",
-      "status": "Mon, October 19th at 2:00 PM EDT",
-      "state": "pre",
-      "completed": false,
-      "clock": "0'",
-      "period": 0
+      "home_id": "13033",
+      "away_id": "21829",
+      "home": "الفتح",
+      "away": "الخليج",
+      "hs": "2",
+      "as": "3",
+      "date": "2026-10-18T18:00Z",
+      "status": "FT",
+      "state": "post",
+      "completed": true,
+      "clock": "90'+8'",
+      "period": 2
     },
     {
       "home_id": "131746",
@@ -3286,14 +3286,14 @@
       "nationality": ""
     },
     {
-      "player_id": "131746-nikola-vasilj",
+      "player_id": "131746-nikola-vasiljevic",
       "team_id": "131746",
       "team": "الدرعية",
-      "name": "Nikola Vasilj",
+      "name": "Nikola Vasiljevic",
       "position": "G",
       "number": "22",
       "age": "30",
-      "nationality": "Bosnia and Herzegovina"
+      "nationality": "Serbia"
     },
     {
       "player_id": "131746-waleed-ali",
@@ -6977,5 +6977,5 @@
     }
   ],
   "scorers": [],
-  "lastUpdated": "2026-10-19 06:36 UTC"
+  "lastUpdated": "2026-10-19 13:56 UTC"
 }
