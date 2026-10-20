@@ -41,7 +41,7 @@ def fetch_direct(url, timeout=30):
             "Accept-Language": "en-US,en;q=0.9"
         }
     )
-           )
+         
     return json.loads(
         urllib.request.urlopen(req, timeout=timeout).read()
     )
