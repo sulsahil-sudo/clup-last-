@@ -249,15 +249,15 @@ try:
         "https://site.api.espn.com/apis/site/v2/sports/soccer/ksa.1/statistics"
     )
 
-    if data:
+        if data:
             for stat in data.get("stats", []):
 
-        if stat.get("name") == "goalsLeaders":
-            for p in stat.get("leaders", []):
-                scorers.append({
-                    "name": p["athlete"]["displayName"],
-                    "team": tr(p["athlete"]["team"]["displayName"]),
-                    "goals": int(p["value"])
+                if stat.get("name") == "goalsLeaders":
+                    for p in stat.get("leaders", []):
+                        scorers.append({
+                        "name": p["athlete"]["displayName"],
+                        "team": tr(p["athlete"]["team"]["displayName"]),
+                        "goals": int(p["value"])
                 })
 
         if stat.get("name") == "goalAssistsLeaders":
