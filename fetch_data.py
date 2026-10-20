@@ -269,7 +269,7 @@ try:
                 })
 
 
-    print(f"عدد الهدافين: {len(scorers)}")
+      print(f"عدد الهدافين: {len(scorers)}")
 
 except Exception as ex:
     print("خطأ الهدافين:", ex)
