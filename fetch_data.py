@@ -250,7 +250,7 @@ try:
     )
 
     if data:
-        for stat in data.get("stats", []):
+            for stat in data.get("stats", []):
 
         if stat.get("name") == "goalsLeaders":
             for p in stat.get("leaders", []):
