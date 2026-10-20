@@ -211,9 +211,6 @@ for team_id, team_name in team_ids:
 
     except Exception as ex:
         print(f"  خطأ {team_name}: {str(ex)[:50]}")
-        except Exception as ex:
-    print(f"  خطأ {team_name}: {str(ex)[:50]}")
-
 print(f"مجموع اللاعبين: {len(players)}")
 
 # إنشاء مجلد data إذا لم يكن موجوداً
