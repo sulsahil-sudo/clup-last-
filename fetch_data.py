@@ -1,5 +1,6 @@
-import json, urllib.request, urllib.parse
+import json, urllib.request, urllib.parse, os
 from datetime import datetime, timedelta
+
 ESPN_STANDINGS = "https://site.api.espn.com/apis/v2/sports/soccer/ksa.1/standings"
 ESPN_BASE = "https://site.api.espn.com/apis/site/v2/sports/soccer/ksa.1/scoreboard"
 
@@ -74,25 +75,12 @@ except Exception as ex:
 # 2. المباريات
 def parse_event(ev):
     c = ev["competitions"][0]
-
-    home = next(
-        (x for x in c["competitors"] if x["homeAway"] == "home"),
-        None
-    )
-
-    away = next(
-        (x for x in c["competitors"] if x["homeAway"] == "away"),
-        None
-    )
-
+    home = next((x for x in c["competitors"] if x["homeAway"] == "home"), None)
+    away = next((x for x in c["competitors"] if x["homeAway"] == "away"), None)
     if not home or not away:
         return None
-
     status_type = ev.get("status", {}).get("type", {})
-
     return {
-        "home_id": str(home["team"]["id"]),
-        "away_id": str(away["team"]["id"]),
         "home": tr(home["team"]["displayName"]),
         "away": tr(away["team"]["displayName"]),
         "hs": home.get("score", "0"),
@@ -148,7 +136,6 @@ print(f"\nمجموع المباريات: {len(results)}")
 
 # 3. اللاعبون
 players = []
-
 print("\nجلب اللاعبين...")
 
 for team_id, team_name in team_ids:
@@ -158,11 +145,10 @@ for team_id, team_name in team_ids:
 
         if roster:
             for ath in roster.get("athletes", []):
-
                 pos = ath.get("position", {}) or {}
-
+                
                 players.append({
-                    "player_id": f"{team_id}-{ath.get('displayName', '').lower().replace(' ', '-')}",
+                    "player_id": f"{team_id}-{ath.get('displayName','').lower().replace(' ','-')}",
                     "team_id": str(team_id),
                     "team": team_name,
                     "name": ath.get("displayName", ""),
@@ -171,24 +157,25 @@ for team_id, team_name in team_ids:
                     "age": str(ath.get("age", "")),
                     "nationality": ath.get("citizenship", "") or ath.get("birthPlace", {}).get("country", "")
                 })
-
     except Exception as ex:
         print(f"  خطأ {team_name}: {str(ex)[:50]}")
+
 print(f"مجموع اللاعبين: {len(players)}")
-# standings.json
+
+# إنشاء مجلد data إذا لم يكن موجوداً
+os.makedirs("data", exist_ok=True)
+
+# حفظ الملفات الفرعية
 with open("data/standings.json", "w", encoding="utf-8") as f:
     json.dump(standings, f, ensure_ascii=False, indent=2)
 
-# matches.json
 with open("data/matches.json", "w", encoding="utf-8") as f:
     json.dump(results, f, ensure_ascii=False, indent=2)
 
-# players.json
 with open("data/players.json", "w", encoding="utf-8") as f:
     json.dump(players, f, ensure_ascii=False, indent=2)
-    # teams.json
-teams = []
 
+teams = []
 for team_id, team_name in team_ids:
     teams.append({
         "team_id": str(team_id),
@@ -198,27 +185,54 @@ for team_id, team_name in team_ids:
 
 with open("data/teams.json", "w", encoding="utf-8") as f:
     json.dump(teams, f, ensure_ascii=False, indent=2)
-    output = {
-    "leagues": [
-        {
-            "id": "saudi-pro-league",
-            "name_ar": "دوري روشن السعودي"
-        }
-    ],
-    "seasons": [
-        {
-            "season_id": "2026-2027",
-            "league_id": "saudi-pro-league",
-            "active": True
-        }
-    ],
-    "teams": teams,
+
+# 4. الهدافون
+scorers = []
+assists = []
+try:
+    print("\nجلب الهدافين...")
+    data = fetch_smart(
+        "https://site.api.espn.com/apis/site/v2/sports/soccer/ksa.1/statistics"
+    )
+    if data:
+        for stat in data.get("stats", []):
+            if stat.get("name") == "goalsLeaders":
+                for p in stat.get("leaders", []):
+                    scorers.append({
+                        "name": p["athlete"]["displayName"],
+                        "team": tr(p["athlete"]["team"]["displayName"]),
+                        "goals": int(p["value"])
+                    })
+    
+               for p in stat.get("leaders", []):
+
+    assist_count = 0
+
+    for st in p.get("statistics", []):
+        if st.get("name") == "goalAssists":
+            assist_count = int(st.get("value", 0))
+
+    assists.append({
+        "name": p["athlete"]["displayName"],
+        "team": tr(p["athlete"]["team"]["displayName"]),
+        "assists": assist_count
+    })
+    print(f"عدد الهدافين: {len(scorers)}")
+except Exception as ex:
+    print("خطأ الهدافين:", ex)
+
+output = {
     "standings": standings,
     "results": results,
     "players": players,
-    "scorers": [],
+    "scorers": scorers,
+"assists": assists,
+
+
     "lastUpdated": datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
 }
+
 with open("data.json", "w", encoding="utf-8") as f:
     json.dump(output, f, ensure_ascii=False, indent=2)
-print("\n✅ تم الحفظ")
+
+print("\n✅ تم الحفظ بنجاح")
