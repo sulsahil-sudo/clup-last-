@@ -388,8 +388,14 @@ var countryMap = {
 
 function translateName(name) {
   if (!name) return '';
-  if (window.translatePlayer) return window.translatePlayer(name);
-  return name;
+ if (
+  window.playerNames &&
+  Object.prototype.hasOwnProperty.call(window.playerNames, name)
+) {
+  return window.playerNames[name];
+}
+
+return name;
 }
 
 function translateCountry(c) {
