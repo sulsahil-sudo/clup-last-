@@ -66,7 +66,6 @@ def fetch_via_proxy(url, timeout=40):
     return None
 
 def fetch_smart(url, timeout=30):
-   def fetch_smart(url, timeout=30):
     try:
         return fetch_direct(url, timeout=timeout)
     except Exception as ex:
