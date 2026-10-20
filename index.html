@@ -896,6 +896,20 @@ function loadData(showLoader) {
         });
         renderPlayers(allPlayers);
       }
+if (data.scorers && data.scorers.length) {
+  var scorersHtml = '';
+
+  data.scorers.forEach(function(s, i) {
+    scorersHtml += '<tr>';
+    scorersHtml += '<td>' + (i + 1) + '</td>';
+    scorersHtml += '<td class="player-name-cell">' + s.name + '</td>';
+    scorersHtml += '<td>' + s.team + '</td>';
+    scorersHtml += '<td><b>' + s.goals + '</b></td>';
+    scorersHtml += '</tr>';
+  });
+
+  document.getElementById('scorersBody').innerHTML = scorersHtml;
+}
 
       allMatches = data.results || [];
       buildFilters();
