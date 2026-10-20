@@ -139,7 +139,7 @@ def parse_event(ev):
         "clock": ev.get("status", {}).get("displayClock", ""),
         "period": ev.get("status", {}).get("period", 0)
     }
-    results = []
+results = []
 seen = set()
 
 def add_events(events):
