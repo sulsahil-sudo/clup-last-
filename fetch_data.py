@@ -6,6 +6,7 @@ import os
 from datetime import datetime, timedelta
 
 ESPN_STANDINGS = "https://site.api.espn.com/apis/v2/sports/soccer/ksa.1/standings"
+
 ESPN_BASE = "https://site.api.espn.com/apis/site/v2/sports/soccer/ksa.1/scoreboard"
 
 translations = {
