@@ -246,7 +246,6 @@ try:
     print("\nجلب الهدافين...")
 
     data = fetch_smart(
-       data = fetch_smart(
     "https://site.api.espn.com/apis/site/v2/sports/soccer/ksa.1/statistics"
 )
     )
