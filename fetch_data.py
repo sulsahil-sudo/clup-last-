@@ -259,6 +259,7 @@ try:
                     })
 
             if stat.get("name") == "goalAssistsLeaders":
+                print(stat.get("name"))
                 for p in stat.get("leaders", []):
                     assists.append({
                         "name": p["athlete"]["displayName"],
