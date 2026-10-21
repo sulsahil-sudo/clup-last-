@@ -256,10 +256,7 @@ try:
                         "team": tr(p["athlete"]["team"]["displayName"]),
                         "goals": int(p["value"])
                     })
-
-       if stat.get("name") == "goalAssists":
-                
-                print(stat.get("name"))
+            if stat.get("name") == "goalAssists":
                 for p in stat.get("leaders", []):
                     assists.append({
                         "name": p["athlete"]["displayName"],
