@@ -247,8 +247,8 @@ try:
     data = fetch_smart(
     "https://site.api.espn.com/apis/site/v2/sports/soccer/ksa.1/statistics"
 )
-  if data:
-    for stat in data.get("stats", []):
+        if data:
+            for stat in data.get("stats", []):
 
         if stat.get("name") == "goalsLeaders":
             for p in stat.get("leaders", []):
