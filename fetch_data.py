@@ -249,6 +249,7 @@ try:
 )
     if data:
         for stat in data.get("stats", []):
+              print(stat.get("name"))
             if stat.get("name") == "goalsLeaders":
                 for p in stat.get("leaders", []):
                     scorers.append({
@@ -258,6 +259,7 @@ try:
                     })
 
             if stat.get("name") == "goalAssistsLeaders":
+                
                 print(stat.get("name"))
                 for p in stat.get("leaders", []):
                     assists.append({
