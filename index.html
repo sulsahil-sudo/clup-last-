@@ -904,7 +904,7 @@ if (data.scorers && data.scorers.length) {
   data.scorers.forEach(function(s, i) {
     scorersHtml += '<tr>';
     scorersHtml += '<td>' + (i + 1) + '</td>';
-    scorersHtml += '<td class="player-name-cell">' + s.name + '</td>';
+   scorersHtml += '<td class="player-name-cell">' + translateName(s.name) + '</td>';
     scorersHtml += '<td>' + s.team + '</td>';
     scorersHtml += '<td><b>' + s.goals + '</b></td>';
     scorersHtml += '</tr>';
