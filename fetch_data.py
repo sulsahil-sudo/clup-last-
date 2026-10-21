@@ -257,7 +257,7 @@ try:
                         "goals": int(p["value"])
                     })
 
-            if stat.get("name") == "goalAssistsLeaders":
+       if stat.get("name") == "goalAssists":
                 
                 print(stat.get("name"))
                 for p in stat.get("leaders", []):
