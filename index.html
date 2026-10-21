@@ -343,25 +343,6 @@
     </table>
   </div>
 </div>
- <div id="assists" class="content hidden">
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>اللاعب</th>
-          <th>الفريق</th>
-          <th>صناعة</th>
-        </tr>
-      </thead>
-      <tbody id="assistsBody">
-        <tr>
-          <td colspan="4" class="loading">جاري التحميل...</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
 <div id="results" class="content hidden">
   <div class="match-filters" id="matchFilters"></div>
   <div id="resultsData" class="loading">جاري التحميل...</div>
@@ -917,21 +898,7 @@ function loadData(showLoader) {
         });
         renderPlayers(allPlayers);
       }
-if (data.assists && data.assists.length) {
-  var assistsHtml = '';
-
-  data.assists.forEach(function(a, i) {
-    assistsHtml += '<tr>';
-    assistsHtml += '<td>' + (i + 1) + '</td>';
-    assistsHtml += '<td class="player-name-cell">' + translateName(a.name) + '</td>';
-    assistsHtml += '<td>' + a.team + '</td>';
-    assistsHtml += '<td><b>' + a.assists + '</b></td>';
-    assistsHtml += '</tr>';
-  });
-
-  document.getElementById('assistsBody').innerHTML = assistsHtml;
-}
-     if (data.scorers && data.scorers.length) {
+if (data.scorers && data.scorers.length) {
   var scorersHtml = '';
 
   data.scorers.forEach(function(s, i) {
